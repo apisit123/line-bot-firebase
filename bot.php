@@ -46,6 +46,7 @@ $arrJson = json_decode($content, true);
 
 $strUrl = "https://api.line.me/v2/bot/message/reply";
 
+$httpClient = new CurlHTTPClient(LINE_MESSAGE_ACCESS_TOKEN);
 $bot = new LINEBot($httpClient, array('channelSecret' => LINE_MESSAGE_CHANNEL_SECRET));
 
 $arrHeader = array();
