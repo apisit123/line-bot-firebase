@@ -46,19 +46,19 @@ $arrJson = json_decode($content, true);
 
 $strUrl = "https://api.line.me/v2/bot/message/reply";
 
-$httpClient = new CurlHTTPClient(LINE_MESSAGE_ACCESS_TOKEN);
+/*$httpClient = new CurlHTTPClient(LINE_MESSAGE_ACCESS_TOKEN);
 $bot = new LINEBot($httpClient, array('channelSecret' => LINE_MESSAGE_CHANNEL_SECRET));
-
+*/
 $arrHeader = array();
 $arrHeader[] = "Content-Type: application/json";
 $arrHeader[] = "Authorization: Bearer {$strAccessToken}";
 $_msg = $arrJson['events'][0]['message']['text'];
 $_uid = $arrJson['events'][0]['source']['userId'];
 
-
+/*
 $response = $bot->getProfile($_uid);
 $userData = $response->getJSONDecodedBody(); // return array  
-
+*/
 $data = json_decode($json);
 $isData=sizeof($data);
 
