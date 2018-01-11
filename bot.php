@@ -7,6 +7,8 @@ $arrJson = json_decode($content, true);
 
 $strUrl = "https://api.line.me/v2/bot/message/reply";
 
+$bot = new LINEBot($httpClient, array('channelSecret' => LINE_MESSAGE_CHANNEL_SECRET));
+
 $arrHeader = array();
 $arrHeader[] = "Content-Type: application/json";
 $arrHeader[] = "Authorization: Bearer {$strAccessToken}";
@@ -21,6 +23,9 @@ $json = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collection
 $data = json_decode($json);
 $isData=sizeof($data);
 
+$response = $bot->getProfile($userId);
+$userData = $response->getJSONDecodedBody(); // return array  
+
 if (strpos($_msg, 'Order') !== false) {
   if (strpos($_msg, 'Order') !== false) {
     $x_tra = str_replace("Order","", $_msg);
@@ -32,8 +37,9 @@ if (strpos($_msg, 'Order') !== false) {
       array(
         'No' => $_no,
         'UserId' => $_uid,
+        'Name' => $userData['displayName'],
         'Coffee' => $_coffee,
-        'Number'=> $_bumber
+        'Number'=> $_number
       )
     );
     $_no = $_no+1;
