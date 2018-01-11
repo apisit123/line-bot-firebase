@@ -52,17 +52,6 @@ $arrHeader[] = "Authorization: Bearer {$strAccessToken}";
 $_msg = $arrJson['events'][0]['message']['text'];
 $_uid = $arrJson['events'][0]['source']['userId'];
 
-$profile = curl_init();
-curl_setopt($profile, CURLOPT_URL,"https://api.line.me/v2/bot/profile");
-curl_setopt($profile, CURLOPT_HEADER, false);
-curl_setopt($profile, CURLOPT_POST, false);
-curl_setopt($profile, CURLOPT_HTTPHEADER, $arrHeader);
-curl_setopt($profile, CURLOPT_POSTFIELDS, false;
-curl_setopt($profile, CURLOPT_RETURNTRANSFER,true);
-curl_setopt($profile, CURLOPT_SSL_VERIFYPEER, false);
-$res = curl_exec($profile);
-curl_close ($profile);
-
 $data = json_decode($json);
 $isData=sizeof($data);
 
@@ -71,6 +60,8 @@ $_no = 1;
 $api_key="4csW3sDVAQwWESHj37IW_1XkRSAvhVwA";
 $url = 'https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'';
 $json = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'&q={"No":"'.$_msg.'"}');
+
+$_x = curl -v -X GET https://api.line.me/v2/bot/profile/4csW3sDVAQwWESHj37IW_1XkRSAvhVwA \ -H 'Authorization: Bearer {channel access token}'
 
 
 if (strpos($_msg, 'Order') !== false) {
@@ -82,7 +73,7 @@ if (strpos($_msg, 'Order') !== false) {
     //Post New Data
     $newData = json_encode(
       array(
-        'No' => $_no,
+        'No' => $_x,
         'UserId' => $_uid,
         //'Name' => $res["displayName"],
         'Coffee' => $_coffee,
