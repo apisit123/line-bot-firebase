@@ -52,6 +52,16 @@ $arrHeader[] = "Authorization: Bearer {$strAccessToken}";
 $_msg = $arrJson['events'][0]['message']['text'];
 $_uid = $arrJson['events'][0]['source']['userId'];
 
+$profile = curl_init();
+curl_setopt($channel, CURLOPT_URL,"https://api.line.me/v2/bot/profile/");
+curl_setopt($channel, CURLOPT_HEADER, false);
+curl_setopt($channel, CURLOPT_POST, false);
+curl_setopt($channel, CURLOPT_HTTPHEADER, $arrHeader);
+curl_setopt($channel, CURLOPT_POSTFIELDS, false;
+curl_setopt($channel, CURLOPT_RETURNTRANSFER,true);
+curl_setopt($channel, CURLOPT_SSL_VERIFYPEER, false);
+$res = curl_exec($profile);
+curl_close ($profile);
 
 $data = json_decode($json);
 $isData=sizeof($data);
@@ -61,20 +71,6 @@ $_no = 1;
 $api_key="4csW3sDVAQwWESHj37IW_1XkRSAvhVwA";
 $url = 'https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'';
 $json = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'&q={"No":"'.$_msg.'"}');
-
-$httpClient = new CurlHTTPClient(LINE_MESSAGE_ACCESS_TOKEN);
-$bot = new LINEBot($httpClient, array('channelSecret' => LINE_MESSAGE_CHANNEL_SECRET));
-
-$res = $bot->getProfile($_uid);
-
-if ($res->isSucceeded()) {
-    $profile = $res->getJSONDecodedBody();
-    $displayName = $profile['displayName'];
-    $statusMessage = $profile['statusMessage'];
-    $pictureUrl = $profile['pictureUrl'];
-}
-
-echo %$displayName;
 
 
 if (strpos($_msg, 'Order') !== false) {
@@ -88,7 +84,7 @@ if (strpos($_msg, 'Order') !== false) {
       array(
         'No' => $_no,
         'UserId' => $_uid,
-        //'Name' => $displayName,
+        'Name' => $res["displayName"],
         'Coffee' => $_coffee,
         'Number'=> $_number
       )
@@ -131,3 +127,10 @@ curl_setopt($channel, CURLOPT_SSL_VERIFYPEER, false);
 $result = curl_exec($channel);
 curl_close ($channel);
 ?>
+
+curl -v -X GET https://api.line.me/v2/bot/profile/Uf7024ae966a267eab0a9f5b82444ea6c \
+-H 'Authorization: Bearer +eU+zQe8QJL9BraZ55TJLLTtUNQ1jDojYN63o5t3Skx2cnTqmXrr5lJNXUNBGVM8mSCtidORd7MgL6neDJf5uI5gKWhR3eUiKuqGNCdh/1ptR4Fdig9RCNHJo9tZUNJjjhH3N+MAtzE3+YVeAjlRIgdB04t89/1O/w1cDnyilFU='
+
+$channel = curl_init();
+curl_setopt($channel, CURLOPT_URL,$strUrl);
+
