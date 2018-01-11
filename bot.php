@@ -80,7 +80,7 @@ if (strpos($_msg, 'Order') !== false) {
       array(
         'No' => $_no,
         'UserId' => $_uid,
-        'Name' => $userData['displayName'],
+      //  'Name' => $userData['displayName'],
         'Coffee' => $_coffee,
         'Number'=> $_number
       )
