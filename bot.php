@@ -15,6 +15,8 @@ $arrHeader[] = "Authorization: Bearer {$strAccessToken}";
 $_msg = $arrJson['events'][0]['message']['text'];
 $_uid = $arrJson['events'][0]['source']['userId'];
 
+$response = $bot->getProfile($_uid);
+$userData = $response->getJSONDecodedBody(); // return array  
 $_no = 1;
 
 $api_key="4csW3sDVAQwWESHj37IW_1XkRSAvhVwA";
@@ -22,9 +24,6 @@ $url = 'https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.
 $json = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'&q={"No":"'.$_msg.'"}');
 $data = json_decode($json);
 $isData=sizeof($data);
-
-$response = $bot->getProfile($userId);
-$userData = $response->getJSONDecodedBody(); // return array  
 
 if (strpos($_msg, 'Order') !== false) {
   if (strpos($_msg, 'Order') !== false) {
