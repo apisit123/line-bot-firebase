@@ -1,183 +1,78 @@
 <?php
-$access_token = '_token_';
-// Get POST body content
+
+$strAccessToken = "+eU+zQe8QJL9BraZ55TJLLTtUNQ1jDojYN63o5t3Skx2cnTqmXrr5lJNXUNBGVM8mSCtidORd7MgL6neDJf5uI5gKWhR3eUiKuqGNCdh/1ptR4Fdig9RCNHJo9tZUNJjjhH3N+MAtzE3+YVeAjlRIgdB04t89/1O/w1cDnyilFU=";
+
 $content = file_get_contents('php://input');
-// Parse JSON
-$events = json_decode($content, true);
-// Validate parsed JSON data
-if (!is_null($events['events'])) {
-    // Loop through each event
-    foreach ($events['events'] as $event) {
-        // Reply only when message sent is in 'text' format
-        if ($event['type'] == 'message' && $event['message']['type'] == 'text') {
-            // Get text sent
-            $text = $event['message']['text'];
-            // Get replyToken
-            $replyToken = $event['replyToken'];
-            
-             if ($event['message']['text'] == 'hi' || $event['message']['text'] == 'hello'){
-                $messages = [
-                    'type' => 'sticker',
-                    'packageId' => 1,
-                    'stickerId' => 4,
-                ];
-                $url = 'https://api.line.me/v2/bot/message/reply';
-                $data = [
-                    'replyToken' => $replyToken,
-                    'messages' => [$messages],
-                ];
-                $post = json_encode($data);
-                $headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $access_token);
-                $ch = curl_init($url);
-                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-                $result = curl_exec($ch);
-                curl_close($ch);
-                echo $result . "\r\n";
-            }else if ($event['message']['text'] == 'firebase' || $event['message']['text'] == 'google'){
-                
-                // Constants firebase
-                 $length = 15;
-                $randomString = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
+$arrJson = json_decode($content, true);
 
-                // Constants
-                   $FIREBASE = "firebase_url";
-                $NODE_PUT = $randomString.".json";
-                $randomString2 = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 11);
-                // Matching nodes updated
-                $data = array(
-                    "url" => $randomString2
-                );
-                    // JSON encoded
-                $json = json_encode($data);
-                // Initialize cURL
-                $curl = curl_init();
-            //Create
-                 curl_setopt( $curl, CURLOPT_URL, $FIREBASE . $NODE_PUT );
-                 curl_setopt( $curl, CURLOPT_CUSTOMREQUEST, "PUT" );
-                curl_setopt( $curl, CURLOPT_POSTFIELDS, $json);
-               // Get return value
-                curl_setopt( $curl, CURLOPT_RETURNTRANSFER, true );
-                // Make request
-                // Close connection
-                $response = curl_exec( $curl );
-                curl_close( $curl );
-                // Show result
-                echo $response . "\n";
-            }else if(strpos($event['message']['text'], 'tp-') !== false){
-                    $getDataTp = $event['message']['text'];
-                    $codeTransport = substr($getDataTp, 3, 10);
-                    $statusId = substr($getDataTp, 14, 1);
+$strUrl = "https://api.line.me/v2/bot/message/reply";
+
+$arrHeader = array();
+$arrHeader[] = "Content-Type: application/json";
+$arrHeader[] = "Authorization: Bearer {$strAccessToken}";
+$_msg = $arrJson['events'][0]['message']['text'];
 
 
-            
+$api_key="4csW3sDVAQwWESHj37IW_1XkRSAvhVwA";
+$url = 'https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'';
+$json = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'&q={"question":"'.$_msg.'"}');
+$data = json_decode($json);
+$isData=sizeof($data);
 
-                 $post = [
-                     'codeTransport' => $codeTransport,
-                     'statusId'   => $statusId,
-                 ];
-                $ch = curl_init('http://..');
-                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                 curl_setopt($ch,CURLOPT_POST, 1);
-                 curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-                // execute!
-                 $response = curl_exec($ch);
-              $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                $err = curl_error($ch);
-                 
-               
-                     curl_close($ch);
-
-
-
-                 // Build message to reply back
-                 $messages = [
-                     'type' => 'text',
-                     'text' => 'success-'.$err.'http'.$http_status
-                 ];
-                    
-                 // Make a POST Request to Messaging API to reply to sender
-                 $url = 'https://api.line.me/v2/bot/message/reply';
-                 $data = [
-                     'replyToken' => $replyToken,
-                     'messages' => [$messages],
-                 ];
-                 $post = json_encode($data);
-                 $headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $access_token);
-
-                 $ch = curl_init($url);
-                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                 curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-                 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-                 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-                 $result = curl_exec($ch);
-                 curl_close($ch);
-                 echo $result . "\r\n";
-
-             }
-
-            // Build message to reply back
-            $messages = [
-                'type' => 'text',
-                'text' => $text
-            ];
-
-            // Make a POST Request to Messaging API to reply to sender
-            $url = 'https://api.line.me/v2/bot/message/reply';
-            $data = [
-                'replyToken' => $replyToken,
-                'messages' => [$messages],
-            ];
-            $post = json_encode($data);
-            $headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $access_token);
-
-            $ch = curl_init($url);
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-            $result = curl_exec($ch);
-            curl_close($ch);
-
-            echo $result . "\r\n";
-        }elseif ($event['type'] == 'message' && $event['message']['type'] == 'sticker'){
-            // Get sticker sent
-            $packageId = $event['message']['packageId'];
-            $stickerId = $event['message']['stickerId'];
-            // Get replyToken
-            $replyToken = $event['replyToken'];
-
-            // Build message to reply back
-            $messages = [
-                'type' => 'sticker',
-                'packageId' => $packageId,
-                'stickerId' => $stickerId,
-            ];
-
-            // Make a POST Request to Messaging API to reply to sender
-            $url = 'https://api.line.me/v2/bot/message/reply';
-            $data = [
-                'replyToken' => $replyToken,
-                'messages' => [$messages],
-            ];
-            $post = json_encode($data);
-            $headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $access_token);
-
-            $ch = curl_init($url);
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-            $result = curl_exec($ch);
-            curl_close($ch);
-
-            echo $result . "\r\n";
-        }
-    }
+if (strpos($_msg, 'สอนบอท') !== false) {
+  if (strpos($_msg, 'สอนบอท') !== false) {
+    $x_tra = str_replace("สอนบอท","", $_msg);
+    $pieces = explode("|", $x_tra);
+    $_question=str_replace("[","",$pieces[0]);
+    $_answer=str_replace("]","",$pieces[1]);
+    //Post New Data
+    $newData = json_encode(
+      array(
+        'question' => $_question,
+        'answer'=> $_answer
+      )
+    );
+    $opts = array(
+      'http' => array(
+          'method' => "POST",
+          'header' => "Content-type: application/json",
+          'content' => $newData
+       )
+    );
+    $context = stream_context_create($opts);
+    $returnValue = file_get_contents($url,false,$context);
+    $arrPostData = array();
+    $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
+    $arrPostData['messages'][0]['type'] = "text";
+    $arrPostData['messages'][0]['text'] = 'ขอบคุณที่สอนครับ';
+  }
+}else{
+  if($isData >0){
+   foreach($data as $rec){
+    $arrPostData = array();
+    $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
+    $arrPostData['messages'][0]['type'] = "text";
+    $arrPostData['messages'][0]['text'] = $rec->answer;
+   }
+  }else{
+    $arrPostData = array();
+    $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
+	$arrPostData['messages'][0]['type'] = "text";
+    $arrPostData['messages'][0]['text'] = 'งง?';
+    $arrPostData['messages'][1]['type'] = "text";
+    $arrPostData['messages'][1]['text'] = 'ครับ คุณสามารถสอนให้ฉลาดได้เพียงพิมพ์: สอนบอท[คำถาม|คำตอบ]';
+  }
 }
+
+
+$channel = curl_init();
+curl_setopt($channel, CURLOPT_URL,$strUrl);
+curl_setopt($channel, CURLOPT_HEADER, false);
+curl_setopt($channel, CURLOPT_POST, true);
+curl_setopt($channel, CURLOPT_HTTPHEADER, $arrHeader);
+curl_setopt($channel, CURLOPT_POSTFIELDS, json_encode($arrPostData));
+curl_setopt($channel, CURLOPT_RETURNTRANSFER,true);
+curl_setopt($channel, CURLOPT_SSL_VERIFYPEER, false);
+$result = curl_exec($channel);
+curl_close ($channel);
+?>
