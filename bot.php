@@ -53,13 +53,13 @@ $_msg = $arrJson['events'][0]['message']['text'];
 $_uid = $arrJson['events'][0]['source']['userId'];
 
 $profile = curl_init();
-curl_setopt($channel, CURLOPT_URL,"https://api.line.me/v2/bot/profile/");
-curl_setopt($channel, CURLOPT_HEADER, false);
-curl_setopt($channel, CURLOPT_POST, false);
-curl_setopt($channel, CURLOPT_HTTPHEADER, $arrHeader);
-curl_setopt($channel, CURLOPT_POSTFIELDS, false;
-curl_setopt($channel, CURLOPT_RETURNTRANSFER,true);
-curl_setopt($channel, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($profile, CURLOPT_URL,"https://api.line.me/v2/bot/profile");
+curl_setopt($profile, CURLOPT_HEADER, false);
+curl_setopt($profile, CURLOPT_POST, false);
+curl_setopt($profile, CURLOPT_HTTPHEADER, $arrHeader);
+curl_setopt($profile, CURLOPT_POSTFIELDS, false;
+curl_setopt($profile, CURLOPT_RETURNTRANSFER,true);
+curl_setopt($profile, CURLOPT_SSL_VERIFYPEER, false);
 $res = curl_exec($profile);
 curl_close ($profile);
 
@@ -84,7 +84,7 @@ if (strpos($_msg, 'Order') !== false) {
       array(
         'No' => $_no,
         'UserId' => $_uid,
-        'Name' => $res["displayName"],
+        //'Name' => $res["displayName"],
         'Coffee' => $_coffee,
         'Number'=> $_number
       )
