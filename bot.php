@@ -127,10 +127,3 @@ curl_setopt($channel, CURLOPT_SSL_VERIFYPEER, false);
 $result = curl_exec($channel);
 curl_close ($channel);
 ?>
-
-curl -v -X GET https://api.line.me/v2/bot/profile/Uf7024ae966a267eab0a9f5b82444ea6c \
--H 'Authorization: Bearer +eU+zQe8QJL9BraZ55TJLLTtUNQ1jDojYN63o5t3Skx2cnTqmXrr5lJNXUNBGVM8mSCtidORd7MgL6neDJf5uI5gKWhR3eUiKuqGNCdh/1ptR4Fdig9RCNHJo9tZUNJjjhH3N+MAtzE3+YVeAjlRIgdB04t89/1O/w1cDnyilFU='
-
-$channel = curl_init();
-curl_setopt($channel, CURLOPT_URL,$strUrl);
-
