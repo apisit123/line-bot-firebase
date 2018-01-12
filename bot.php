@@ -48,7 +48,7 @@ $api_key="4csW3sDVAQwWESHj37IW_1XkRSAvhVwA";
 $strUrl = "https://api.line.me/v2/bot/message/reply";
 
 $url = 'https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'';
-$json = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'&q={"No":"'.$_msg.'"}');
+$json = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'&q={"Coffee":'.$_msg.'}');
 
 
 $content = file_get_contents('php://input');
@@ -64,7 +64,6 @@ $_uid = $arrJson['events'][0]['source']['userId'];
 
 $data = json_decode($json);
 $isData=sizeof($data);
-
 
 $_no = 1;
 
@@ -136,7 +135,7 @@ if (strpos($_msg, 'Order') !== false) {
   $arrPostData['messages'][0]['type'] = "text";
     $arrPostData['messages'][0]['text'] = 'งง?';
     $arrPostData['messages'][1]['type'] = "text";
-    $arrPostData['messages'][1]['text'] = '....'.$data.'';
+    $arrPostData['messages'][1]['text'] = '....'.$isData.'';
   }
 }
 
