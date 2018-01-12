@@ -70,7 +70,7 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
 
 $headers = array();
-$headers[] = "Authorization: Bearer {channel access token}";
+$headers[] = "Authorization: Bearer {$strAccessToken}";
 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
 $result = curl_exec($ch);
