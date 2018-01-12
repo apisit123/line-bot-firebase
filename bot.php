@@ -74,7 +74,8 @@ $headers[] = "Authorization: Bearer {$strAccessToken}";
 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
 $result = curl_exec($ch);
-$dispName = result['displayName'];
+$_dispName = $result['displayName'];
+$_picProF = $result['pictureUrl'];
 
 if (curl_errno($ch)) {
     echo 'Error:' . curl_error($ch);
@@ -92,8 +93,9 @@ if (strpos($_msg, 'Order') !== false) {
       array(
         'No' => $_no,
         'UserId' => $_uid,
-        'Name' => $dispName,
         'Coffee' => $_coffee,
+        'PicProfile' => $_ProF,
+        'Name' => $_dispName,
         'Number'=> $_number
       )
     );
