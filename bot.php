@@ -62,6 +62,9 @@ $api_key="4csW3sDVAQwWESHj37IW_1XkRSAvhVwA";
 $url = 'https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'';
 $json = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'&q={"No":"'.$_msg.'"}');
 
+$str = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'');
+$_buffer = json_decode($str, true);
+
 
 $ch = curl_init();
 
@@ -87,8 +90,6 @@ curl_close ($ch);
 if (strpos($_msg, 'Order') !== false) {
   if (strpos($_msg, 'Order') !== false) {
 
-    $str = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'');
-    $_buffer = json_decode($str, true);
     $_no = sizeof($_buffer) + 1;
 
     $x_tra = str_replace("Order","", $_msg);
@@ -119,7 +120,7 @@ if (strpos($_msg, 'Order') !== false) {
     $arrPostData = array();
     $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
     $arrPostData['messages'][0]['type'] = "text";
-    $arrPostData['messages'][0]['text'] = 'ขอบคุณครับ'.$_no.'';
+    $arrPostData['messages'][0]['text'] = 'ขอบคุณครับ'.$newData.'';
   }
 }else{
   if($isData >0){
