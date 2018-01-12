@@ -119,7 +119,7 @@ if (strpos($_msg, 'Order') !== false) {
     $arrPostData = array();
     $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
     $arrPostData['messages'][0]['type'] = "text";
-    $arrPostData['messages'][0]['text'] = 'ขอบคุณครับ'.$str.'';
+    $arrPostData['messages'][0]['text'] = 'ขอบคุณครับ'.$_no.'';
   }
 }else{
   if($isData >0){
