@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-//*************************************************************************************************************************
+///////////// ส่วนของการเรียกใช้งาน class ผ่าน namespace
 use LINE\LINEBot;
 use LINE\LINEBot\HTTPClient;
 use LINE\LINEBot\HTTPClient\CurlHTTPClient;
@@ -39,22 +39,13 @@ use LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder;
 use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselTemplateBuilder;
 use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselColumnTemplateBuilder;
 
-
-//****************************************************************************************************************************
-
 $strAccessToken = "+eU+zQe8QJL9BraZ55TJLLTtUNQ1jDojYN63o5t3Skx2cnTqmXrr5lJNXUNBGVM8mSCtidORd7MgL6neDJf5uI5gKWhR3eUiKuqGNCdh/1ptR4Fdig9RCNHJo9tZUNJjjhH3N+MAtzE3+YVeAjlRIgdB04t89/1O/w1cDnyilFU=";
-
-$api_key="4csW3sDVAQwWESHj37IW_1XkRSAvhVwA";
-$strUrl = "https://api.line.me/v2/bot/message/reply";
-
-$url = 'https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'';
-$json = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'&q={"Coffee":"'.$_msg.'"}');
 
 
 $content = file_get_contents('php://input');
 $arrJson = json_decode($content, true);
 
-
+$strUrl = "https://api.line.me/v2/bot/message/reply";
 
 $arrHeader = array();
 $arrHeader[] = "Content-Type: application/json";
@@ -65,17 +56,23 @@ $_uid = $arrJson['events'][0]['source']['userId'];
 $data = json_decode($json);
 $isData=sizeof($data);
 
-$size = sizeof(json);
-
 $_no = 1;
 
+$api_key="4csW3sDVAQwWESHj37IW_1XkRSAvhVwA";
+$url = 'https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'';
+$json = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'&q={"No":"'.$_msg.'"}');
+
+
 $ch = curl_init();
+
 curl_setopt($ch, CURLOPT_URL, 'https://api.line.me/v2/bot/profile/'.$_uid.'');
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+
 $headers = array();
 $headers[] = "Authorization: Bearer {$strAccessToken}";
 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
 $result = curl_exec($ch);
 
 $_ProF = json_decode($result, true);
@@ -86,10 +83,6 @@ if (curl_errno($ch)) {
     echo 'Error:' . curl_error($ch);
 }
 curl_close ($ch);
-
-
-
-//**************************************************************************************************************************
 
 if (strpos($_msg, 'Order') !== false) {
   if (strpos($_msg, 'Order') !== false) {
@@ -121,7 +114,7 @@ if (strpos($_msg, 'Order') !== false) {
     $arrPostData = array();
     $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
     $arrPostData['messages'][0]['type'] = "text";
-    $arrPostData['messages'][0]['text'] = 'ขอบคุณครับ'.$result.'';
+    $arrPostData['messages'][0]['text'] = 'ขอบคุณที่สอนครับ'.$json.'';
   }
 }else{
   if($isData >0){
@@ -131,16 +124,8 @@ if (strpos($_msg, 'Order') !== false) {
     $arrPostData['messages'][0]['type'] = "text";
     $arrPostData['messages'][0]['text'] = $rec->answer;
    }
-  }else{
-    $arrPostData = array();
-    $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
-  $arrPostData['messages'][0]['type'] = "text";
-    $arrPostData['messages'][0]['text'] = 'งง?';
-    $arrPostData['messages'][1]['type'] = "text";
-    $arrPostData['messages'][1]['text'] = '....'.$size.'';
   }
 }
-
 
 
 $channel = curl_init();
