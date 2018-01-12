@@ -88,7 +88,8 @@ if (strpos($_msg, 'Order') !== false) {
   if (strpos($_msg, 'Order') !== false) {
 
     $str = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'');
-    $_no = sizeof($str) + 1;
+    $_buffer = json_decode($str, true);
+    $_no = sizeof($_buffer) + 1;
 
     $x_tra = str_replace("Order","", $_msg);
     $pieces = explode("|", $x_tra);
