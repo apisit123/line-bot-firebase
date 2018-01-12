@@ -94,7 +94,7 @@ if (strpos($_msg, 'Order') !== false) {
         'No' => $_no,
         'UserId' => $_uid,
         'Coffee' => $_coffee,
-        'PicProfile' => $_ProF,
+        'PicProfile' => $_picProF,
         'Name' => $_dispName,
         'Number'=> $_number
       )
