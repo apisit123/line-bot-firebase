@@ -61,8 +61,24 @@ $api_key="4csW3sDVAQwWESHj37IW_1XkRSAvhVwA";
 $url = 'https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'';
 $json = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'&q={"No":"'.$_msg.'"}');
 
-$_x = curl -v -X GET https://api.line.me/v2/bot/profile/4csW3sDVAQwWESHj37IW_1XkRSAvhVwA \ -H 'Authorization: Bearer {channel access token}'
 
+$ch = curl_init();
+
+curl_setopt($ch, CURLOPT_URL, 'https://api.line.me/v2/bot/profile/'.$_uid.'');
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+
+$headers = array();
+$headers[] = "Authorization: Bearer {channel access token}";
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+$result = curl_exec($ch);
+$dispName = result['displayName'];
+
+if (curl_errno($ch)) {
+    echo 'Error:' . curl_error($ch);
+}
+curl_close ($ch);
 
 if (strpos($_msg, 'Order') !== false) {
   if (strpos($_msg, 'Order') !== false) {
@@ -73,9 +89,9 @@ if (strpos($_msg, 'Order') !== false) {
     //Post New Data
     $newData = json_encode(
       array(
-        'No' => $_x,
+        'No' => $_no,
         'UserId' => $_uid,
-        //'Name' => $res["displayName"],
+        'Name' => $dispName,
         'Coffee' => $_coffee,
         'Number'=> $_number
       )
