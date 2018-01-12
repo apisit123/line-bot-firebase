@@ -48,7 +48,7 @@ $api_key="4csW3sDVAQwWESHj37IW_1XkRSAvhVwA";
 $strUrl = "https://api.line.me/v2/bot/message/reply";
 
 $url = 'https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'';
-$json = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'&q={"Coffee":'.$_msg.'}');
+$json = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'&q={"Coffee":"'.$_msg.'""}');
 
 
 $content = file_get_contents('php://input');
