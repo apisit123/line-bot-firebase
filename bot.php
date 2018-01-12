@@ -74,8 +74,10 @@ $headers[] = "Authorization: Bearer {$strAccessToken}";
 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
 $result = curl_exec($ch);
-$_dispName = $result['displayName'];
-$_picProF = $result['pictureUrl'];
+
+$_ProF = json_decode($result, true);
+$_dispName = $_ProF['displayName'];
+$_picProF = $_ProF['pictureUrl'];
 
 if (curl_errno($ch)) {
     echo 'Error:' . curl_error($ch);
