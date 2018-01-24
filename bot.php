@@ -101,8 +101,8 @@ $isData3=sizeof($data3);
 if (strpos($_msg, 'Order') !== false) {
   if (strpos($_msg, 'Order') !== false) {
 
-    if($data3 < 5){
-      $_no = sizeof($_buffer) + 1;
+    if($isData3 < 5){
+       $_no = sizeof($_buffer) + 1;
 
       $x_tra = str_replace("Order","", $_msg);
       $pieces = explode("|", $x_tra);
@@ -139,14 +139,15 @@ if (strpos($_msg, 'Order') !== false) {
       $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
       $arrPostData['messages'][0]['type'] = "text";
       $arrPostData['messages'][0]['text'] = 'Order received.';
-    }
-  }else{
+
+    }else{
       $arrPostData = array();
       $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
       $arrPostData['messages'][0]['type'] = "text";
-      $arrPostData['messages'][0]['text'] = 'กดเกิน 5 ครั้งละ จะกดอะไรนักหนา เกรียนสัด';
+      $arrPostData['messages'][0]['text'] = 'สั่งแค่ 5 แก้วพอ เผื่อคนอื่นมั่ง';
+    }
+   
   }
-
 }else{
   if($isData >0){
    foreach($data as $rec){
