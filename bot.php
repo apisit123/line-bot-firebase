@@ -52,7 +52,7 @@ $arrHeader[] = "Content-Type: application/json";
 $arrHeader[] = "Authorization: Bearer {$strAccessToken}";
 $_msg = $arrJson['events'][0]['message']['text'];
 $_uid = $arrJson['events'][0]['source']['userId'];
-$_rId = $arrJson['events'][0]['message'];
+$_rId = $arrJson['events'][0]['source'];
 
 $data = json_decode($json);
 $isData=sizeof($data);
