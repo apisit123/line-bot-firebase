@@ -132,8 +132,8 @@ if (strpos($_msg, 'Order') !== false) {
     $returnValue = file_get_contents($url,false,$context);
     $arrPostData = array();
     $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
-    $arrPostData['messages'][0]['type'] = "text";
-    $arrPostData['messages'][0]['text'] = $_roomId;//'Order received.';
+    $arrPostData['source'][0]['type'] = "room";
+    $arrPostData['source'][0]['roomId'] = $_roomId;//'Order received.';
 
   }
 }else{
