@@ -94,7 +94,7 @@ if (curl_errno($ch)) {
 }
 curl_close ($ch);
 
-$_axces = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey=4csW3sDVAQwWESHj37IW_1XkRSAvhVwA&q={"UserId":"'.$_uid.'", "Access":"x"}');
+$_axces = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey=4csW3sDVAQwWESHj37IW_1XkRSAvhVwA&q={"UserId":"'.$_uid.'"&&"Access":"x"}');
 $data3 = json_decode($_axces);
 $isData3=sizeof($data3);
 
@@ -144,7 +144,7 @@ if (strpos($_msg, 'Order') !== false) {
       $arrPostData = array();
       $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
       $arrPostData['messages'][0]['type'] = "text";
-      $arrPostData['messages'][0]['text'] = 'สั่งแค่ 5 แก้วพอ เผื่อคนอื่นมั่ง';
+      $arrPostData['messages'][0]['text'] = $isData3;//'สั่งแค่ 5 แก้วพอ เผื่อคนอื่นมั่ง';
     }
    
   }
