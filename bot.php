@@ -52,9 +52,12 @@ $arrHeader[] = "Content-Type: application/json";
 $arrHeader[] = "Authorization: Bearer {$strAccessToken}";
 $_msg = $arrJson['events'][0]['message']['text'];
 $_uid = $arrJson['events'][0]['source']['userId'];
+$_rId = $arrJson;
 
 $data = json_decode($json);
 $isData=sizeof($data);
+
+$fx = json_decode($_rId);
 
 
 
@@ -131,7 +134,7 @@ if (strpos($_msg, 'Order') !== false) {
     $arrPostData = array();
     $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
     $arrPostData['messages'][0]['type'] = "text";
-    $arrPostData['messages'][0]['text'] = 'Order received.';
+    $arrPostData['messages'][0]['text'] = (string)$fx; //'Order received.';
   }
 }else{
   if($isData >0){
