@@ -52,7 +52,9 @@ $arrHeader[] = "Content-Type: application/json";
 $arrHeader[] = "Authorization: Bearer {$strAccessToken}";
 $_msg = $arrJson['events'][0]['message']['text'];
 $_uid = $arrJson['events'][0]['source']['userId'];
-$_rId = $arrJson['events'][0]['source'];
+$_rId = $arrJson['events'][1]['source'];
+$_rId2 = $arrJson['events'][2]['source'];
+$_rId3 = $arrJson['events'][3]['source'];
 
 $data = json_decode($json);
 $isData=sizeof($data);
@@ -114,6 +116,8 @@ if (strpos($_msg, 'Order') !== false) {
         'No' => $_no,
         'UserId' => $_uid,
         'roomId' => $_rId,
+        'roomId2' => $_rId2,
+        'roomId3' => $_rId3,
         'Coffee' => $_coffee,
         'PicProfile' => $_picProF,
         'Name' => $_dispName,
