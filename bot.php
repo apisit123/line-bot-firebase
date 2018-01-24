@@ -129,11 +129,21 @@ if (strpos($_msg, 'Order') !== false) {
        )
     );
     $context = stream_context_create($opts);
-    $returnValue = file_get_contents($url,false,$context);
+    /*$returnValue = file_get_contents($url,false,$context);
     $arrPostData = array();
     $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
     $arrPostData['messages'][0]['type'] = "text";
-    $arrPostData['messages'][0]['text'] = 'Order received.';
+    $arrPostData['messages'][0]['text'] = 'Order received.';*/
+      $returnValue = file_get_contents($url,false,$context);
+      $arrPostData = array();
+      $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
+ -    $arrPostData['messages'][0]['type'] = "text";
+ -    $arrPostData['messages'][0]['text'] = $_roomId;//'Order received.';
+ +    $arrPostData['source'][0]['type'] = "room";
+ +    $arrPostData['source'][0]['roomId'] = $_roomId;//'Order received.';
+  
+    }
+  }else{
   }
 }else{
   if($isData >0){
