@@ -75,8 +75,7 @@ $_buffer = json_decode($str, true);
 
 $ch = curl_init();
 
-//curl_setopt($ch, CURLOPT_URL, 'https://api.line.me/v2/bot/profile/'.$_uid.'');
-curl_setopt($ch, CURLOPT_URL, 'https://api.line.me/v2/bot/room');
+curl_setopt($ch, CURLOPT_URL, 'https://api.line.me/v2/bot/profile/'.$_uid.'');
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
 
@@ -95,47 +94,59 @@ if (curl_errno($ch)) {
 }
 curl_close ($ch);
 
+$_axces = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey=4csW3sDVAQwWESHj37IW_1XkRSAvhVwA&q={"UserId":"'.$_uid.'", "Access":"x"}');
+$data3 = json_decode($_axces);
+$isData3=sizeof($data3);
+
 if (strpos($_msg, 'Order') !== false) {
   if (strpos($_msg, 'Order') !== false) {
 
-    $_no = sizeof($_buffer) + 1;
+    if(data3 > 5){
+      $_no = sizeof($_buffer) + 1;
 
-    $x_tra = str_replace("Order","", $_msg);
-    $pieces = explode("|", $x_tra);
-    $_coffee=str_replace("[","",$pieces[0]);
-    $_number=str_replace("]","",$pieces[1]);
-    //Post New Data
-    if($isData2 > 0){
-      $acc = 'x';
+      $x_tra = str_replace("Order","", $_msg);
+      $pieces = explode("|", $x_tra);
+      $_coffee=str_replace("[","",$pieces[0]);
+      $_number=str_replace("]","",$pieces[1]);
+      //Post New Data
+      if($isData2 > 0){
+        $acc = 'x';
+      }
+
+      $newData = json_encode(
+        array(
+          'No' => $_no,
+          'UserId' => $_uid,
+          'roomId' => $_rId,
+          'Coffee' => $_coffee,
+          'PicProfile' => $_picProF,
+          'Name' => $_dispName,
+          'Number' => $_number,
+          'Access' => $acc
+        )
+      );
+      $_no = $_no+1;
+      $opts = array(
+        'http' => array(
+            'method' => "POST",
+            'header' => "Content-type: application/json",
+            'content' => $newData
+         )
+      );
+      $context = stream_context_create($opts);
+      $returnValue = file_get_contents($url,false,$context);
+      $arrPostData = array();
+      $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
+      $arrPostData['messages'][0]['type'] = "text";
+      $arrPostData['messages'][0]['text'] = 'Order received.';
     }
-
-    $newData = json_encode(
-      array(
-        'No' => $_no,
-        'UserId' => $_uid,
-        'roomId' => $_rId,
-        'Coffee' => $_coffee,
-        'PicProfile' => $_picProF,
-        'Name' => $_dispName,
-        'Number' => $_number,
-        'Access' => $acc
-      )
-    );
-    $_no = $_no+1;
-    $opts = array(
-      'http' => array(
-          'method' => "POST",
-          'header' => "Content-type: application/json",
-          'content' => $newData
-       )
-    );
-    $context = stream_context_create($opts);
-    $returnValue = file_get_contents($url,false,$context);
-    $arrPostData = array();
-    $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
-    $arrPostData['messages'][0]['type'] = "text";
-    $arrPostData['messages'][0]['text'] = 'Order received.';
+  }else{
+      $arrPostData = array();
+      $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
+      $arrPostData['messages'][0]['type'] = "text";
+      $arrPostData['messages'][0]['text'] = 'กดเกิน 5 ครั้งละ จะกดอะไรนักหนา เกรียนสัด';
   }
+
 }else{
   if($isData >0){
    foreach($data as $rec){
@@ -146,10 +157,6 @@ if (strpos($_msg, 'Order') !== false) {
    }
   }
 }
-
-$_axces = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey=4csW3sDVAQwWESHj37IW_1XkRSAvhVwA&q={"UserId":"'.$_uid.'", "Access":"x"}');
-$data3 = json_decode($_axces);
-$isData3=sizeof($data3);
 
 /*
 if(data3 > 5){
