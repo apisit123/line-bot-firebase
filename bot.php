@@ -52,7 +52,7 @@ $arrHeader[] = "Content-Type: application/json";
 $arrHeader[] = "Authorization: Bearer {$strAccessToken}";
 $_msg = $arrJson['events'][0]['message']['text'];
 $_uid = $arrJson['events'][0]['source']['userId'];
-$_rId = $arrJson['events'][1]['source']['roomId'];
+$_rId = $arrJson['events'][1]['source']['room'];
 
 $data = json_decode($json);
 $isData=sizeof($data);
@@ -75,7 +75,8 @@ $_buffer = json_decode($str, true);
 
 $ch = curl_init();
 
-curl_setopt($ch, CURLOPT_URL, 'https://api.line.me/v2/bot/profile/'.$_uid.'');
+//curl_setopt($ch, CURLOPT_URL, 'https://api.line.me/v2/bot/profile/'.$_uid.'');
+curl_setopt($ch, CURLOPT_URL, 'https://api.line.me/v2/bot/room');
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
 
