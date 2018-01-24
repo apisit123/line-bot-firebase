@@ -138,13 +138,13 @@ if (strpos($_msg, 'Order') !== false) {
       $arrPostData = array();
       $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
       $arrPostData['messages'][0]['type'] = "text";
-      $arrPostData['messages'][0]['text'] = 'Order received.';
+      $arrPostData['messages'][0]['text'] = $isData3;//'Order received.';
 
     }else{
       $arrPostData = array();
       $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
       $arrPostData['messages'][0]['type'] = "text";
-      $arrPostData['messages'][0]['text'] = $isData3;//'สั่งแค่ 5 แก้วพอ เผื่อคนอื่นมั่ง';
+      $arrPostData['messages'][0]['text'] = 'สั่งแค่ 5 แก้วพอ เผื่อคนอื่นมั่ง';
     }
    
   }
