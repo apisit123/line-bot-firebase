@@ -52,7 +52,8 @@ $arrHeader[] = "Content-Type: application/json";
 $arrHeader[] = "Authorization: Bearer {$strAccessToken}";
 $_msg = $arrJson['events'][0]['message']['text'];
 $_uid = $arrJson['events'][0]['source']['userId'];
-$_roomId = $arrJson['events'][0];
+$_src = = $arrJson['events'][0];
+$_roomId = $arrJson['events'][0]['timestamp'];
 
 $data = json_decode($json);
 $isData=sizeof($data);
@@ -112,6 +113,7 @@ if (strpos($_msg, 'Order') !== false) {
       array(
         'No' => $_no,
         'UserId' => $_uid,
+        'sxxxxx' => (string)$_src,
         'roomId' => $_roomId,
         'Coffee' => $_coffee,
         'PicProfile' => $_picProF,
@@ -129,21 +131,11 @@ if (strpos($_msg, 'Order') !== false) {
        )
     );
     $context = stream_context_create($opts);
-    /*$returnValue = file_get_contents($url,false,$context);
+    $returnValue = file_get_contents($url,false,$context);
     $arrPostData = array();
     $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
     $arrPostData['messages'][0]['type'] = "text";
-    $arrPostData['messages'][0]['text'] = 'Order received.';*/
-      $returnValue = file_get_contents($url,false,$context);
-      $arrPostData = array();
-      $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
- -    $arrPostData['messages'][0]['type'] = "text";
- -    $arrPostData['messages'][0]['text'] = $_roomId;//'Order received.';
- +    $arrPostData['source'][0]['type'] = "room";
- +    $arrPostData['source'][0]['roomId'] = $_roomId;//'Order received.';
-  
-    }
-  }else{
+    $arrPostData['messages'][0]['text'] = 'Order received.';
   }
 }else{
   if($isData >0){
