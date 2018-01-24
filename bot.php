@@ -101,7 +101,7 @@ $isData3=sizeof($data3);
 if (strpos($_msg, 'Order') !== false) {
   if (strpos($_msg, 'Order') !== false) {
 
-    if(data3 > 5){
+    if($data3 < 5){
       $_no = sizeof($_buffer) + 1;
 
       $x_tra = str_replace("Order","", $_msg);
