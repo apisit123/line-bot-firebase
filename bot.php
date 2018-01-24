@@ -60,7 +60,13 @@ $isData=sizeof($data);
 
 $api_key="4csW3sDVAQwWESHj37IW_1XkRSAvhVwA";
 $url = 'https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'';
+
 $json = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'&q={"No":"'.$_msg.'"}');
+
+$qry = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey=4csW3sDVAQwWESHj37IW_1XkRSAvhVwA&q={"UserId":"'.$_uid.'"}');
+
+$data2 = json_decode($qry);
+$isData2=sizeof($data2);
 
 $str = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'');
 $_buffer = json_decode($str, true);
@@ -98,6 +104,10 @@ if (strpos($_msg, 'Order') !== false) {
     $_coffee=str_replace("[","",$pieces[0]);
     $_number=str_replace("]","",$pieces[1]);
     //Post New Data
+    if($isData2 > 0){
+      $acc = 'x';
+    }
+
     $newData = json_encode(
       array(
         'No' => $_no,
@@ -105,7 +115,8 @@ if (strpos($_msg, 'Order') !== false) {
         'Coffee' => $_coffee,
         'PicProfile' => $_picProF,
         'Name' => $_dispName,
-        'Number'=> $_number
+        'Number' => $_number,
+        'Access' => $acc
       )
     );
     $_no = $_no+1;
