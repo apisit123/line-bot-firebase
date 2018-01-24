@@ -112,6 +112,7 @@ if (strpos($_msg, 'Order') !== false) {
       array(
         'No' => $_no,
         'UserId' => $_uid,
+        'roomId' => $_rId,
         'Coffee' => $_coffee,
         'PicProfile' => $_picProF,
         'Name' => $_dispName,
