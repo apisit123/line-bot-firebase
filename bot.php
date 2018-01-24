@@ -94,28 +94,6 @@ if (curl_errno($ch)) {
 }
 curl_close ($ch);
 
-$ch = curl_init();
-
-curl_setopt($ch, CURLOPT_URL, 'https://api.line.me/v2/bot/room/{roomId}/member/{userId}');
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
-
-$headers = array();
-$headers[] = "Authorization: Bearer {$strAccessToken}";
-curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-$result = curl_exec($ch);
-
-$_ProFx = json_decode($result, true);
-$_dispName = $_ProFx['displayName'];
-$_picProF = $_ProF['pictureUrl'];
-
-if (curl_errno($ch)) {
-    echo 'Error:' . curl_error($ch);
-}
-curl_close ($ch);
-
-
 if (strpos($_msg, 'Order') !== false) {
   if (strpos($_msg, 'Order') !== false) {
 
