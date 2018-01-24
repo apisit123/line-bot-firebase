@@ -87,6 +87,7 @@ if (curl_errno($ch)) {
 }
 curl_close ($ch);
 
+
 if (strpos($_msg, 'Order') !== false) {
   if (strpos($_msg, 'Order') !== false) {
 
@@ -120,7 +121,7 @@ if (strpos($_msg, 'Order') !== false) {
     $arrPostData = array();
     $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
     $arrPostData['messages'][0]['type'] = "text";
-    $arrPostData['messages'][0]['text'] = 'ขอบคุณครับ'.$newData.'';
+    $arrPostData['messages'][0]['text'] = 'Order received.';
   }
 }else{
   if($isData >0){
