@@ -94,8 +94,6 @@ if (curl_errno($ch)) {
 }
 curl_close ($ch);
 
-$room = json_decode($_roomId);
-
 if (strpos($_msg, 'Order') !== false) {
   if (strpos($_msg, 'Order') !== false) {
 
@@ -114,7 +112,7 @@ if (strpos($_msg, 'Order') !== false) {
       array(
         'No' => $_no,
         'UserId' => $_uid,
-        'roomId' => $room,
+        'roomId' => $_roomId,
         'Coffee' => $_coffee,
         'PicProfile' => $_picProF,
         'Name' => $_dispName,
