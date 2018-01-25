@@ -132,7 +132,7 @@ if (strpos($_msg, 'Order') !== false) {
       $arrPostData['messages'][0]['type'] = "text";
       $arrPostData['messages'][0]['text'] = 'Order received.';
 
-    }else{
+    }elseif($isData3 > 2){
       $arrPostData = array();
       $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
       $arrPostData['messages'][0]['type'] = "text";
@@ -140,14 +140,15 @@ if (strpos($_msg, 'Order') !== false) {
     }
    
   }
-}else{
+}
+
+
+if (strpos($_msg, 'Report') !== false) {
   if (strpos($_msg, 'Report') !== false) {
-    if (strpos($_msg, 'Report') !== false) {
-      $arrPostData = array();
-      $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
-      $arrPostData['messages'][0]['type'] = "text";
-      $arrPostData['messages'][0]['text'] = "Coming Soon...";
-    }
+    $arrPostData = array();
+    $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
+    $arrPostData['messages'][0]['type'] = "text";
+    $arrPostData['messages'][0]['text'] = "Coming Soon...";
   }
 }
 
