@@ -39,6 +39,29 @@ use LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder;
 use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselTemplateBuilder;
 use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselColumnTemplateBuilder;
 
+function get_profile(){
+
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, 'https://api.line.me/v2/bot/profile/'.$_uid.'');
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+
+  $headers = array();
+  $headers[] = "Authorization: Bearer {$strAccessToken}";
+  curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+  $result = curl_exec($ch);
+  $_ProF = json_decode($result, true);
+  $_dispName = $_ProF['displayName'];
+  $_picProF = $_ProF['pictureUrl'];
+
+  if (curl_errno($ch)) {
+      echo 'Error:' . curl_error($ch);
+  }
+  curl_close ($ch);
+  return ($_dispName, $_picProF);
+}
+
 $strAccessToken = "+eU+zQe8QJL9BraZ55TJLLTtUNQ1jDojYN63o5t3Skx2cnTqmXrr5lJNXUNBGVM8mSCtidORd7MgL6neDJf5uI5gKWhR3eUiKuqGNCdh/1ptR4Fdig9RCNHJo9tZUNJjjhH3N+MAtzE3+YVeAjlRIgdB04t89/1O/w1cDnyilFU=";
 
 
@@ -54,61 +77,40 @@ $_msg = $arrJson['events'][0]['message']['text'];
 $_uid = $arrJson['events'][0]['source']['userId'];
 $_rId = $arrJson['events'];
 
+/*
+$json = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'&q={"No":"'.$_msg.'"}');
+
 $data = json_decode($json);
 $isData=sizeof($data);
-
-
+*/
 
 $api_key="4csW3sDVAQwWESHj37IW_1XkRSAvhVwA";
 $url = 'https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'';
 
-$json = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'&q={"No":"'.$_msg.'"}');
-
-$qry = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey=4csW3sDVAQwWESHj37IW_1XkRSAvhVwA&q={"UserId":"'.$_uid.'"}');
-
-$data2 = json_decode($qry);
-$isData2=sizeof($data2);
-
-$str = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'');
-$_buffer = json_decode($str, true);
-
-
-$ch = curl_init();
-
-curl_setopt($ch, CURLOPT_URL, 'https://api.line.me/v2/bot/profile/'.$_uid.'');
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
-
-$headers = array();
-$headers[] = "Authorization: Bearer {$strAccessToken}";
-curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-$result = curl_exec($ch);
-
-$_ProF = json_decode($result, true);
-$_dispName = $_ProF['displayName'];
-$_picProF = $_ProF['pictureUrl'];
-
-if (curl_errno($ch)) {
-    echo 'Error:' . curl_error($ch);
-}
-curl_close ($ch);
 
 $_axces = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey=4csW3sDVAQwWESHj37IW_1XkRSAvhVwA&q={"UserId":"'.$_uid.'","Access":"x"}');
-$data3 = json_decode($_axces);
-$isData3=sizeof($data3);
+$isData3=sizeof(json_decode($_axces));
 
 if (strpos($_msg, 'Order') !== false) {
   if (strpos($_msg, 'Order') !== false) {
 
-    if($isData3 < 4){
-       $_no = sizeof($_buffer) + 1;
+    if($isData3 < 2){
 
+      $str = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'');
+      $_buffer = json_decode($str, true);
+
+      $name, $imgProfile = get_profile();
+
+      $_no = sizeof($_buffer) + 1;
       $x_tra = str_replace("Order","", $_msg);
       $pieces = explode("|", $x_tra);
       $_coffee=str_replace("[","",$pieces[0]);
-      $_number=str_replace("]","",$pieces[1]);
-      //Post New Data
+      
+      $qry = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey=4csW3sDVAQwWESHj37IW_1XkRSAvhVwA&q={"UserId":"'.$_uid.'"}');
+
+     // $data2 = json_decode($qry);
+      $isData2=sizeof(json_decode($qry));
+
       if($isData2 > 0){
         $acc = 'x';
       }
@@ -119,9 +121,8 @@ if (strpos($_msg, 'Order') !== false) {
           'UserId' => $_uid,
           'roomId' => $_rId,
           'Coffee' => $_coffee,
-          'PicProfile' => $_picProF,
-          'Name' => $_dispName,
-          'Number' => $_number,
+          'PicProfile' => $imgProfile,
+          'Name' => $name,
           'Access' => $acc
         )
       );
@@ -144,41 +145,11 @@ if (strpos($_msg, 'Order') !== false) {
       $arrPostData = array();
       $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
       $arrPostData['messages'][0]['type'] = "text";
-      $arrPostData['messages'][0]['text'] = 'สั่งแค่ 5 แก้วพอ เผื่อคนอื่นมั่ง';
+      $arrPostData['messages'][0]['text'] = 'ไม่ควรดื่มเกินวันละ 3 แก้ว!';
     }
    
   }
-}else{
-  if($isData >0){
-   foreach($data as $rec){
-    $arrPostData = array();
-    $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
-    $arrPostData['messages'][0]['type'] = "text";
-    $arrPostData['messages'][0]['text'] = $rec->answer;
-   }
-  }
 }
-
-/*
-if(data3 > 5){
-
-  $ch = curl_init();
-
-  curl_setopt($ch, CURLOPT_URL, 'https://api.line.me/v2/bot/room/{roomId}/member/'.$_uid.'');
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
-
-  $headers = array();
-  $headers[] = "Authorization: Bearer {$strAccessToken}";
-  curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-  $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(''.$strAccessToken.'');
-  $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => '9fb1e822313472b5fc68f1870e30d6d4']);
-  $response = $bot->leaveRoom('<roomId>');
-  echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
-
-}*/
-
 
 $channel = curl_init();
 curl_setopt($channel, CURLOPT_URL,$strUrl);
