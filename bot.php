@@ -39,28 +39,6 @@ use LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder;
 use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselTemplateBuilder;
 use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselColumnTemplateBuilder;
 
-function get_profile(){
-
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, 'https://api.line.me/v2/bot/profile/'.$_uid.'');
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
-
-  $headers = array();
-  $headers[] = "Authorization: Bearer {$strAccessToken}";
-  curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-  $result = curl_exec($ch);
-  $_ProF = json_decode($result, true);
-  $_dispName = $_ProF['displayName'];
-  $_picProF = $_ProF['pictureUrl'];
-
-  if (curl_errno($ch)) {
-      echo 'Error:' . curl_error($ch);
-  }
-  curl_close ($ch);
-  return ($_dispName, $_picProF);
-}
 
 $strAccessToken = "+eU+zQe8QJL9BraZ55TJLLTtUNQ1jDojYN63o5t3Skx2cnTqmXrr5lJNXUNBGVM8mSCtidORd7MgL6neDJf5uI5gKWhR3eUiKuqGNCdh/1ptR4Fdig9RCNHJo9tZUNJjjhH3N+MAtzE3+YVeAjlRIgdB04t89/1O/w1cDnyilFU=";
 
@@ -99,7 +77,27 @@ if (strpos($_msg, 'Order') !== false) {
       $str = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'');
       $_buffer = json_decode($str, true);
 
-      $name, $imgProfile = get_profile();
+      
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, 'https://api.line.me/v2/bot/profile/'.$_uid.'');
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+
+      $headers = array();
+      $headers[] = "Authorization: Bearer {$strAccessToken}";
+      curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+      $result = curl_exec($ch);
+      $_ProFILE = json_decode($result, true);
+      $_dispName = $_ProFILE['displayName'];
+      $_imgProFILE = $_ProFILE['pictureUrl'];
+
+      if (curl_errno($ch)) {
+          echo 'Error:' . curl_error($ch);
+      }
+      curl_close ($ch);
+
+
 
       $_no = sizeof($_buffer) + 1;
       $x_tra = str_replace("Order","", $_msg);
@@ -121,8 +119,8 @@ if (strpos($_msg, 'Order') !== false) {
           'UserId' => $_uid,
           'roomId' => $_rId,
           'Coffee' => $_coffee,
-          'PicProfile' => $imgProfile,
-          'Name' => $name,
+          'PicProfile' => $_imgProFILE,
+          'Name' => $_dispName,
           'Access' => $acc
         )
       );
