@@ -90,6 +90,20 @@ if (strpos($_msg, 'Order') !== false) {
       curl_close ($ch);
 
 
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, 'https://api.line.me/v2/bot/user/'.$_uid.'/richmenu');
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+
+      $headers = array();
+      $headers[] = "Authorization: Bearer {$strAccessToken}";
+      curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+      $result = curl_exec($ch);
+      $rich = json_decode($result, true);
+      $_richMenu = $rich['richMenuId'];
+
+      curl_close ($ch);
 
       $_no = sizeof($_buffer) + 1;
       $x_tra = str_replace("Order","", $_msg);
@@ -113,7 +127,8 @@ if (strpos($_msg, 'Order') !== false) {
           'Coffee' => $_coffee,
           'PicProfile' => $_imgProFILE,
           'Name' => $_dispName,
-          'Access' => $acc
+          'Access' => $acc,
+          'richMenu' => $_richMenu
         )
       );
       $_no = $_no+1;
