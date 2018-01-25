@@ -70,39 +70,34 @@ $_axces = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collecti
 $isData3=sizeof(json_decode($_axces));
 
 if (strpos($_msg, 'Order') !== false) {
-  if (strpos($_msg, 'Order') !== false) {
+  if($isData3 < 2){
 
-    if($isData3 < 2){
-
-      $str = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'');
-      $_buffer = json_decode($str, true);
+    $str = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'');
+    $_buffer = json_decode($str, true);
 
       
-      $ch = curl_init();
-      curl_setopt($ch, CURLOPT_URL, 'https://api.line.me/v2/bot/profile/'.$_uid.'');
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'https://api.line.me/v2/bot/profile/'.$_uid.'');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
 
-      $headers = array();
-      $headers[] = "Authorization: Bearer {$strAccessToken}";
-      curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    $headers = array();
+    $headers[] = "Authorization: Bearer {$strAccessToken}";
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
-      $result = curl_exec($ch);
-      $_ProFILE = json_decode($result, true);
-      $_dispName = $_ProFILE['displayName'];
-      $_imgProFILE = $_ProFILE['pictureUrl'];
-
-      if (curl_errno($ch)) {
-          echo 'Error:' . curl_error($ch);
-      }
-      curl_close ($ch);
+    $result = curl_exec($ch);
+    $_ProFILE = json_decode($result, true);
+    $_dispName = $_ProFILE['displayName'];
+    $_imgProFILE = $_ProFILE['pictureUrl'];
+      
+    curl_close ($ch);
 
 
 
-      $_no = sizeof($_buffer) + 1;
-      $x_tra = str_replace("Order","", $_msg);
-      $pieces = explode("|", $x_tra);
-      $_coffee=str_replace("[","",$pieces[0]);
+    $_no = sizeof($_buffer) + 1;
+    $x_tra = str_replace("Order","", $_msg);
+    $pieces = explode("|", $x_tra);
+    $_coffee=str_replace("[","",$pieces[0]);
       
       $qry = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey=4csW3sDVAQwWESHj37IW_1XkRSAvhVwA&q={"UserId":"'.$_uid.'"}');
 
@@ -144,9 +139,19 @@ if (strpos($_msg, 'Order') !== false) {
       $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
       $arrPostData['messages'][0]['type'] = "text";
       $arrPostData['messages'][0]['text'] = 'ไม่ควรดื่มเกินวันละ 3 แก้ว!';
-    }
-   
-  }
+    }  
+}elseif (strpos($_msg, 'Report') !== false)) {
+  $_report = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey=4csW3sDVAQwWESHj37IW_1XkRSAvhVwA&q={"UserId":"'.$_uid.'","Access":"x"}');
+  $arrPostData = array();
+  $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
+  $arrPostData['messages'][0]['type'] = "text";
+  $arrPostData['messages'][0]['text'] = 
+  '=======Report=======\n
+  Order:\n
+  Coffee:\n
+  Wait:\n
+  ';
+  
 }
 
 $channel = curl_init();
