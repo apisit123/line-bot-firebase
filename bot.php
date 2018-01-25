@@ -91,7 +91,7 @@ if (strpos($_msg, 'Order') !== false) {
 
 
       $ch = curl_init();
-      curl_setopt($ch, CURLOPT_URL, 'https://api.line.me/v2/bot/user/'.$_uid.'/richmenu');
+      curl_setopt($ch, CURLOPT_URL, 'https://api.line.me/v2/bot/richmenu/list');
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
       curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
 
@@ -101,7 +101,7 @@ if (strpos($_msg, 'Order') !== false) {
 
       $result = curl_exec($ch);
       $rich = json_decode($result, true);
-      $_richMenu = $rich['richMenuId'];
+      $_richMenu = $rich;
 
       curl_close ($ch);
 
