@@ -84,54 +84,9 @@ if (strpos($_msg, 'Order') !== false) {
       $_dispName = $_ProFILE['displayName'];
       $_imgProFILE = $_ProFILE['pictureUrl'];
 
-      if (curl_errno($ch)) {
-          echo 'Error:' . curl_error($ch);
-      }
       curl_close ($ch);
 
 
-      $ch = curl_init();
-      curl_setopt($ch, CURLOPT_URL, 'https://api.line.me/v2/bot/richmenu');
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
-
-      $headers = array();
-      $headers[] = "Authorization: Bearer {$strAccessToken}", 'Content-Type: application/json';
-      curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-      $arrPost = array();
-      $arrPost['messages'][0]['type'] = "text";
-      $arrPost['messages'][0]['text'] = '{
-    "size": {
-      "width": 2500,
-      "height": 1686
-    },
-    "selected": false,
-    "name": "Nice richmenu",
-    "chatBarText": "Tap here",
-    "areas": [
-      {
-        "bounds": {
-          "x": 0,
-          "y": 0,
-          "width": 2500,
-          "height": 1686
-        },
-        "action": {
-          "type": "postback",
-          "data": "action=buy&itemid=123"
-        }
-      }
-   ]
-}';
-
-      curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($arrPost));
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER,true);
-      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-      $result = curl_exec($ch);
-      $rich = json_decode($result, true);
-      $_richMenu = $rich;
-
-      curl_close ($ch);
 
       $_no = sizeof($_buffer) + 1;
       $x_tra = str_replace("Order","", $_msg);
@@ -155,8 +110,7 @@ if (strpos($_msg, 'Order') !== false) {
           'Coffee' => $_coffee,
           'PicProfile' => $_imgProFILE,
           'Name' => $_dispName,
-          'Access' => $acc,
-          'richMenu' => $_richMenu
+          'Access' => $acc
         )
       );
       $_no = $_no+1;
@@ -174,7 +128,7 @@ if (strpos($_msg, 'Order') !== false) {
       $arrPostData['messages'][0]['type'] = "text";
       $arrPostData['messages'][0]['text'] = 'Order received.';
 
-    }else{
+    }elseif($isData3 > 2){
       $arrPostData = array();
       $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
       $arrPostData['messages'][0]['type'] = "text";
