@@ -55,13 +55,6 @@ $_msg = $arrJson['events'][0]['message']['text'];
 $_uid = $arrJson['events'][0]['source']['userId'];
 $_rId = $arrJson['events'];
 
-/*
-$json = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'&q={"No":"'.$_msg.'"}');
-
-$data = json_decode($json);
-$isData=sizeof($data);
-*/
-
 $api_key="4csW3sDVAQwWESHj37IW_1XkRSAvhVwA";
 $url = 'https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'';
 
@@ -144,17 +137,10 @@ if (strpos($_msg, 'Order') !== false) {
       $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
       $arrPostData['messages'][0]['type'] = "text";
       $arrPostData['messages'][0]['text'] = 'ไม่ควรดื่มเกินวันละ 3 แก้ว!';
-    }  
-  }
-}else{
-  if(strpos($_msg, 'Report') !== false)){
-    $arrPostData = array();
-    $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
-    $arrPostData['messages'][0]['type'] = "text";
-    $arrPostData['messages'][0]['text'] = 'report!!!!';
+    }
+   
   }
 }
-
 
 $channel = curl_init();
 curl_setopt($channel, CURLOPT_URL,$strUrl);
