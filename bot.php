@@ -63,7 +63,6 @@ $_axces = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collecti
 $isData3=sizeof(json_decode($_axces));
 
 if (strpos($_msg, 'Order') !== false) {
-  if (strpos($_msg, 'Order') !== false) {
 
     if($isData3 < 2){
 
@@ -132,24 +131,20 @@ if (strpos($_msg, 'Order') !== false) {
       $arrPostData['messages'][0]['type'] = "text";
       $arrPostData['messages'][0]['text'] = 'Order received.';
 
-    }elseif($isData3 > 2){
+    }else{
       $arrPostData = array();
       $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
       $arrPostData['messages'][0]['type'] = "text";
       $arrPostData['messages'][0]['text'] = 'ไม่ควรดื่มเกินวันละ 3 แก้ว!';
     }
-   
-  }
 }
 
 
 if (strpos($_msg, 'Report') !== false) {
-  if (strpos($_msg, 'Report') !== false) {
     $arrPostData = array();
     $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
     $arrPostData['messages'][0]['type'] = "text";
     $arrPostData['messages'][0]['text'] = "Coming Soon...";
-  }
 }
 
 $channel = curl_init();
