@@ -91,14 +91,42 @@ if (strpos($_msg, 'Order') !== false) {
 
 
       $ch = curl_init();
-      curl_setopt($ch, CURLOPT_URL, 'https://api.line.me/v2/bot/richmenu/list');
+      curl_setopt($ch, CURLOPT_URL, 'https://api.line.me/v2/bot/richmenu');
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
       curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
 
       $headers = array();
-      $headers[] = "Authorization: Bearer {$strAccessToken}";
+      $headers[] = "Authorization: Bearer {$strAccessToken}", 'Content-Type: application/json';
       curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+      $arrPost = array();
+      $arrPost['messages'][0]['type'] = "text";
+      $arrPost['messages'][0]['text'] = '{
+    "size": {
+      "width": 2500,
+      "height": 1686
+    },
+    "selected": false,
+    "name": "Nice richmenu",
+    "chatBarText": "Tap here",
+    "areas": [
+      {
+        "bounds": {
+          "x": 0,
+          "y": 0,
+          "width": 2500,
+          "height": 1686
+        },
+        "action": {
+          "type": "postback",
+          "data": "action=buy&itemid=123"
+        }
+      }
+   ]
+}';
 
+      curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($arrPost));
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER,true);
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
       $result = curl_exec($ch);
       $rich = json_decode($result, true);
       $_richMenu = $rich;
