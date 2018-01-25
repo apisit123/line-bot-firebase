@@ -128,7 +128,7 @@ if (strpos($_msg, 'Order') !== false) {
       $arrPostData['messages'][0]['type'] = "text";
       $arrPostData['messages'][0]['text'] = 'Order received.';
 
-    }elseif($isData3 > 2){
+    }else{
       $arrPostData = array();
       $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
       $arrPostData['messages'][0]['type'] = "text";
