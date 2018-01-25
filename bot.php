@@ -71,12 +71,13 @@ $isData3=sizeof(json_decode($_axces));
 
 if (strpos($_msg, 'Order') !== false) {
   if (strpos($_msg, 'Order') !== false) {
+
     if($isData3 < 2){
 
       $str = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'');
       $_buffer = json_decode($str, true);
 
-        
+      
       $ch = curl_init();
       curl_setopt($ch, CURLOPT_URL, 'https://api.line.me/v2/bot/profile/'.$_uid.'');
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -90,7 +91,10 @@ if (strpos($_msg, 'Order') !== false) {
       $_ProFILE = json_decode($result, true);
       $_dispName = $_ProFILE['displayName'];
       $_imgProFILE = $_ProFILE['pictureUrl'];
-        
+
+      if (curl_errno($ch)) {
+          echo 'Error:' . curl_error($ch);
+      }
       curl_close ($ch);
 
 
@@ -140,14 +144,17 @@ if (strpos($_msg, 'Order') !== false) {
       $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
       $arrPostData['messages'][0]['type'] = "text";
       $arrPostData['messages'][0]['text'] = 'ไม่ควรดื่มเกินวันละ 3 แก้ว!';
-    }
-  }elseif (strpos($_msg, 'Report') !== false)) {
+    }  
+  }
+}else{
+  if(strpos($_msg, 'Report') !== false)){
     $arrPostData = array();
     $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
     $arrPostData['messages'][0]['type'] = "text";
-    $arrPostData['messages'][0]['text'] = '=======Report=======\nOrder:\nCoffee:\nWait:\n';
-  }  
+    $arrPostData['messages'][0]['text'] = 'report!!!!';
+  }
 }
+
 
 $channel = curl_init();
 curl_setopt($channel, CURLOPT_URL,$strUrl);
