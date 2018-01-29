@@ -125,7 +125,7 @@ if (strpos($_msg, 'Order') !== false) {
       $arrPostData = array();
       $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
       $arrPostData['messages'][0]['type'] = "text";
-      $arrPostData['messages'][0]['text'] = "Order received.\n Your order number" + $_no;
+      $arrPostData['messages'][0]['text'] = "Order received.\n Your order number";
 
       $_no = $_no+1;
 
