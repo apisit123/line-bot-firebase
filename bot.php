@@ -53,7 +53,6 @@ $arrHeader[] = "Content-Type: application/json";
 $arrHeader[] = "Authorization: Bearer {$strAccessToken}";
 $_msg = $arrJson['events'][0]['message']['text'];
 $_uid = $arrJson['events'][0]['source']['userId'];
-$_rId = $arrJson['events'];
 
 $api_key="4csW3sDVAQwWESHj37IW_1XkRSAvhVwA";
 $url = 'https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'';
@@ -124,21 +123,49 @@ if (strpos($_msg, 'Order') !== false) {
             'content' => $newData
          )
       );
+
+      $txt = "\curl -v -X POST https://api.line.me/v2/bot/message/reply \
+-H 'Content-Type:application/json' \
+-H 'Authorization: Bearer +eU+zQe8QJL9BraZ55TJLLTtUNQ1jDojYN63o5t3Skx2cnTqmXrr5lJNXUNBGVM8mSCtidORd7MgL6neDJf5uI5gKWhR3eUiKuqGNCdh/1ptR4Fdig9RCNHJo9tZUNJjjhH3N+MAtzE3+YVeAjlRIgdB04t89/1O/w1cDnyilFU=' \
+-d "{
+    "to": "Uabeba789147c026870a033491c1c6224",
+    "messages":[
+        {
+          "type": "template",
+          "altText": "this is a confirm template",
+          "template": {
+              "type": "confirm",
+              "text": "Are you sure?",
+              "actions": [
+                  {
+                    "type": "message",
+                    "label": "Yes",
+                    "text": "yes"
+                  },
+                  {
+                    "type": "message",
+                    "label": "No",
+                    "text": "no"
+                  }
+      ]
+  }
+}
+
+   ]
+}""
       $x = ($_no-$_totalSuccessOrder)*3;
+      $out = shell_exec($txt);
       $context = stream_context_create($opts);
       $returnValue = file_get_contents($url,false,$context);
       $arrPostData = array();
-      /*$arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
+      $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
       $arrPostData['messages'][0]['type'] = "text";
       $arrPostData['messages'][0]['text'] = "Order received";
       $arrPostData['messages'][1]['type'] = "text";
       $arrPostData['messages'][1]['text'] = 'Your order number '.$_no.'';
       $arrPostData['messages'][2]['type'] = "text";
-      $arrPostData['messages'][2]['text'] = 'Please wait about '.$x.' minute';*/
-      $arrPostData[] = 'replyToken:'.$arrJson['events'][0]['replyToken'].'';
-      $arrPostData[] = 'messages: {"type":"text","text":"Hello, world2"}'
-
-
+      $arrPostData['messages'][2]['text'] = $out;//'Please wait about '.$x.' minute';
+      //$arrPostData['messages'][2]['text'] = $output;
 
       $_no = $_no+1;
 
