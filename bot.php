@@ -106,12 +106,6 @@ if (strpos($_msg, 'Order') !== false) {
       $_successOrder = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/currentValue?apiKey=4csW3sDVAQwWESHj37IW_1XkRSAvhVwA&q');
       $_totalSuccessOrder=sizeof(json_decode($_successOrder));
 
-      $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
-      $arrPostData['messages'][0]['type'] = "text";
-      $arrPostData['messages'][0]['text'] = "Order received";
-      $arrPostData['messages'][1]['type'] = "text";
-      $arrPostData['messages'][1]['text'] = 'Your order number '.$_no.'';
-
       $newData = json_encode(
         array(
           'No' => $_no,
@@ -120,8 +114,7 @@ if (strpos($_msg, 'Order') !== false) {
           'Coffee' => $_coffee,
           'PicProfile' => $_imgProFILE,
           'Name' => $_dispName,
-          'Access' => $acc,
-          'XXXX' => $arrPostData
+          'Access' => $acc
         )
       );
       $opts = array(
@@ -134,21 +127,30 @@ if (strpos($_msg, 'Order') !== false) {
       $x = ($_no-$_totalSuccessOrder)*3;
       $context = stream_context_create($opts);
       $returnValue = file_get_contents($url,false,$context);
-      $arrPostData = array();
+      //$arrPostData = array();
+      /*$arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
+      $arrPostData['messages'][0]['type'] = "text";
+      $arrPostData['messages'][0]['text'] = "Order received";
+      $arrPostData['messages'][1]['type'] = "text";
+      $arrPostData['messages'][1]['text'] = 'Your order number '.$_no.'';
+      $arrPostData['messages'][2]['type'] = "text";
+      $arrPostData['messages'][2]['text'] = 'Please wait about '.$x.' minute';*/
+      $arrPostData = array({
+        "replyToken": "152c30f890d042da9501b0efb2589464",
+        "messages": [
+            {
+                "type": "text",
+                "text": "Order received"
+            },
+            {
+                "type": "text",
+                "text": "Your order number 1"
+            }
+        ]
+    });
 
-      
 
 
- /*     $arrPostData['messages'][2]["type"] = "template";
-      $arrPostData['messages'][2]["altText"] = "this is a confirm template";
-      $arrPostData['messages'][2]["template"]["type"] = "confirm";
-      $arrPostData['messages'][2]["template"]["text"] = "Are you sure?";
-      $arrPostData['messages'][2]["template"]["actions"]["type"] = "message";
-      $arrPostData['messages'][2]["template"]["actions"]["label"] = "Yes";
-      $arrPostData['messages'][2]["template"]["actions"]["text"] = "yes";
-      $arrPostData['messages'][2]["template"]["actions"]["type"] = "message";
-      $arrPostData['messages'][2]["template"]["actions"]["label"] = "No";
-      $arrPostData['messages'][2]["template"]["actions"]["text"] = "no";*/
       $_no = $_no+1;
 
     }else{
