@@ -53,7 +53,7 @@ $arrHeader[] = "Content-Type: application/json";
 $arrHeader[] = "Authorization: Bearer {$strAccessToken}";
 $_msg = $arrJson['events'][0]['message']['text'];
 $_uid = $arrJson['events'][0]['source']['userId'];
-$_confirm = $arrJson['events'][0]['message'];
+$_confirm = $arrJson['events'][0]['postback'];
 $_rId = $arrJson['events'];
 
 $api_key="4csW3sDVAQwWESHj37IW_1XkRSAvhVwA";
@@ -64,7 +64,7 @@ $_axces = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collecti
 $isData3=sizeof(json_decode($_axces));
 
 
-if (strpos($_msg, 'Order') !== false) {
+if (strpos($_msg, 'yes') !== false) {
 
     if($isData3 < 3){
 
