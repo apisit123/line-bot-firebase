@@ -128,9 +128,9 @@ if (strpos($_msg, 'Order') !== false) {
       $x = ($_no-$_totalSuccessOrder)*3;
       $arrPostData = array();
       $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
-      $arrPostData['messages'][0]['type'] = "text";
+      $arrPostData['messages'][0]['type'] = "template";
       $arrPostData['messages'][0]['altText'] = "this is a confirm template";
-      $arrPostData['messages'][0]['template'] = 
+      $arrPostData['messages'][0]['text'] = 
       "messages":[
         {
           "type": "template",
