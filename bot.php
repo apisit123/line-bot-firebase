@@ -124,7 +124,7 @@ if (strpos($_msg, 'Order') !== false) {
             'content' => $newData
          )
       );
-      $x = ($_no-$_totalSuccessOrder)*3;
+      $x = ($_no - $_totalSuccessOrder)*3;
       $context = stream_context_create($opts);
       $returnValue = file_get_contents($url,false,$context);
       $arrPostData = array();
@@ -132,7 +132,7 @@ if (strpos($_msg, 'Order') !== false) {
       $arrPostData['messages'][0]['type'] = "text";
       $arrPostData['messages'][0]['text'] = "Order received";
       $arrPostData['messages'][1]['type'] = "text";
-      $arrPostData['messages'][1]['text'] = 'Your order number '.$_no.'';
+      $arrPostData['messages'][1]['text'] = 'Your order number '.$_no.' successOrder '.$_totalSuccessOrder.'';
       $arrPostData['messages'][2]['type'] = "text";
       $arrPostData['messages'][2]['text'] = 'Please wait about '.$x.' minute';
 
