@@ -136,7 +136,7 @@ if (strpos($_msg, 'Order') !== false) {
       $arrPostData['messages'][2]['type'] = "text";
       $arrPostData['messages'][2]['text'] = 'Please wait about '.$x.' minute';*/
       $arrPostData = array({
-        "replyToken": "152c30f890d042da9501b0efb2589464",
+        "replyToken": ''.$arrJson['events'][0]['replyToken'];.'',
         "messages": [
             {
                 "type": "text",
@@ -147,10 +147,8 @@ if (strpos($_msg, 'Order') !== false) {
                 "text": "Your order number 1"
             }
         ]
-    });
-
-
-
+      });
+      
       $_no = $_no+1;
 
     }else{
