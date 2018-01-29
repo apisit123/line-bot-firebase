@@ -135,12 +135,14 @@ if (strpos($_msg, 'Order') !== false) {
       $arrPostData['messages'][1]['text'] = 'Your order number '.$_no.'';
       $arrPostData['messages'][2]['type'] = "text";
       $arrPostData['messages'][2]['text'] = 'Please wait about '.$x.' minute';
+      $arrPostData['messages'][3]['type'] = "text";
+      $arrPostData['messages'][3]['text'] = 'Hello';
 
-      $arrPostData['messages'][3] = {
+  /*    $arrPostData['messages'][3] = {
             "type":"text",
             "text":"Hello, user"
         };
-
+*/
 
 
       $_no = $_no+1;
