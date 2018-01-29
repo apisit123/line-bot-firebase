@@ -136,7 +136,7 @@ if (strpos($_msg, 'Order') !== false) {
       $arrPostData['messages'][2]['type'] = "text";
       $arrPostData['messages'][2]['text'] = 'Please wait about '.$x.' minute';
 
-      $arrPostData['messages'][3]['type'] = {
+      $arrPostData['messages'][3] = {
   "type": "template",
   "altText": "this is a confirm template",
   "template": {
