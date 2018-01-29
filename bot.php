@@ -6,7 +6,7 @@ $strAccessToken = "+eU+zQe8QJL9BraZ55TJLLTtUNQ1jDojYN63o5t3Skx2cnTqmXrr5lJNXUNBG
 $content = file_get_contents('php://input');
 $arrJson = json_decode($content, true);
 
-$strUrl = "https://api.line.me/v2/bot/message/push";
+$strUrl = "https://api.line.me/v2/bot/message/reply";
 
 $arrHeader = array();
 $arrHeader[] = "Content-Type: application/json";
@@ -101,11 +101,11 @@ if (strpos($_msg, 'Order') !== false) {
   
 
     }else{
-     /* $arrPostData = array();
+      $arrPostData = array();
       $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
       $arrPostData['messages'][0]['type'] = "text";
-      $arrPostData['messages'][0]['text'] = 'ไม่ควรดื่มเกินวันละ 3 แก้ว!';*/
-      $arrPostData = array();
+     $arrPostData['messages'][0]['text'] = 'ไม่ควรดื่มเกินวันละ 3 แก้ว!';
+    /*  $arrPostData = array();
       $arrPostData['to'] = "Uabeba789147c026870a033491c1c6224";
       $arrPostData['messages'][0]['type'] = "template";
       $arrPostData['messages'][0]['altText'] = "this is a confirm template";
@@ -116,7 +116,7 @@ if (strpos($_msg, 'Order') !== false) {
       $arrPostData['messages'][0]['template']['actions'][0]['text'] = "yes";
       $arrPostData['messages'][0]['template']['actions'][1]['type'] = "message";
       $arrPostData['messages'][0]['template']['actions'][1]['label'] = "No";
-      $arrPostData['messages'][0]['template']['actions'][1]['text'] = "no";
+      $arrPostData['messages'][0]['template']['actions'][1]['text'] = "no"; */
 }
 
 
