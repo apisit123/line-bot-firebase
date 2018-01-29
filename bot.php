@@ -134,7 +134,7 @@ if (strpos($_msg, 'Order') !== false) {
       $arrPostData['messages'][1]['type'] = "text";
       $arrPostData['messages'][1]['text'] = 'Your order number '.$_no.'';*/
 
-      $arrPostData = arrat(
+      $arrPostData = array(
         "replyToken": $arrJson['events'][0]['replyToken'].,
         "messages":[
         {
