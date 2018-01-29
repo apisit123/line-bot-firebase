@@ -128,19 +128,27 @@ if (strpos($_msg, 'Order') !== false) {
       $context = stream_context_create($opts);
       $returnValue = file_get_contents($url,false,$context);
       $arrPostData = array();
+
+      $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($strAccessToken);
+      $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => '9fb1e822313472b5fc68f1870e30d6d4']);
+
+      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('hello');
+      $response = $bot->replyMessage($arrJson['events'][0]['replyToken'], $textMessageBuilder);
+
+      echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
      // $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
     /*  $arrPostData['messages'][0]['type'] = "text";
       $arrPostData['messages'][0]['text'] = "Order received";
       $arrPostData['messages'][1]['type'] = "text";
       $arrPostData['messages'][1]['text'] = 'Your order number '.$_no.'';*/
 
-      $arrPostData = array(
+ /*     $arrPostData = array(
         "replyToken": $arrJson['events'][0]['replyToken'].,
         "messages":[
         {
             "type":"text",
             "text":"Hello, user"
-        }]);
+        }]);*/
      /* $arrPostData['messages'][2]['type'] = "text";
       $arrPostData['messages'][2]['text'] = 'Please wait about '.$x.' minute';*/
 
