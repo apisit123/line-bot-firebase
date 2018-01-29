@@ -124,9 +124,6 @@ if (strpos($_msg, 'Order') !== false) {
          )
       );
 
-
-     
-
       $x = ($_no-$_totalSuccessOrder)*3;
 
       $context = stream_context_create($opts);
@@ -138,9 +135,26 @@ if (strpos($_msg, 'Order') !== false) {
       $arrPostData['messages'][1]['type'] = "text";
       $arrPostData['messages'][1]['text'] = 'Your order number '.$_no.'';
       $arrPostData['messages'][2]['type'] = "text";
-      $arrPostData['messages'][2]['text'] = $result;//'Please wait about '.$x.' minute';
+      $arrPostData['messages'][2]['text'] = 'Please wait about '.$x.' minute';
 
       $_no = $_no+1;
+
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, 'https://api.line.me/v2/bot/message/push');
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($ch, CURLOPT_POSTFIELDS, "{\"to\": \"Uf7024ae966a267eab0a9f5b82444ea6c\",\"messages\":[{\"type\":\"template\",\"altText\":\"this is a confirm template\",\"template\":{\"type\":\"confirm\",\"text\":\"Are you sure?\",\"actions\":[{\"type\":\"message\",\"label\":\"Yes\",\"text\":\"yes\"},{\"type\":\"message\",\"label\": \"No\",\"text\":\"no\"}]}}]}");
+      curl_setopt($ch, CURLOPT_POST, 1);
+
+      $headers = array();
+      $headers[] = 'Content-Type:application/json'
+      $headers[] = "Authorization: Bearer {$strAccessToken}";
+      curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+      $result = curl_exec($ch);
+      if (curl_errno($ch)) {
+          echo 'Error:' . curl_error($ch);
+      }
+      curl_close ($ch);
 
     }else{
       $arrPostData = array();
