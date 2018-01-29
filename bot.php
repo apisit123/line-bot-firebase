@@ -65,7 +65,7 @@ $isData3=sizeof(json_decode($_axces));
 
 if (strpos($_msg, 'Order') !== false) {
 
-    if($isData3 < 2){
+    if($isData3 < 3){
 
       $str = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'');
       $_buffer = json_decode($str, true);
