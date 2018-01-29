@@ -94,8 +94,9 @@ if (strpos($_msg, 'Order') !== false) {
       $arrPostData['messages'][0]['text'] = "Order received";
       $arrPostData['messages'][1]['type'] = "text";
       $arrPostData['messages'][1]['text'] = 'Your order number '.$_no.'';
-      $arrPostData['messages'][2]['type'] = "template";
-      $arrPostData['messages'][2]['altText'] = "this is a confirm template";//'Please wait about '.$x.' minute';
+      $arrPostData['messages'][1]['type'] = "sticker";
+      $arrPostData['messages'][1]['packageId'] = ""; 
+      $arrPostData['messages'][1]['stickerId'] = "";
       //$arrPostData['messages'][2]['text'] = $output;
 
    /*   {
