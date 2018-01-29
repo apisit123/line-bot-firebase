@@ -128,13 +128,17 @@ if (strpos($_msg, 'Order') !== false) {
       $context = stream_context_create($opts);
       $returnValue = file_get_contents($url,false,$context);
       $arrPostData = array();
-      $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
+      /*$arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
       $arrPostData['messages'][0]['type'] = "text";
       $arrPostData['messages'][0]['text'] = "Order received";
       $arrPostData['messages'][1]['type'] = "text";
       $arrPostData['messages'][1]['text'] = 'Your order number '.$_no.'';
       $arrPostData['messages'][2]['type'] = "text";
-      $arrPostData['messages'][2]['text'] = 'Please wait about '.$x.' minute';
+      $arrPostData['messages'][2]['text'] = 'Please wait about '.$x.' minute';*/
+      $arrPostData[] = 'replyToken:'.$arrJson['events'][0]['replyToken'].'';
+      $arrPostData[] = 'messages: {"type":"text","text":"Hello, world2"}'
+
+
 
       $_no = $_no+1;
 
