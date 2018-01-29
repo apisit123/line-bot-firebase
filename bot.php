@@ -6,7 +6,7 @@ $strAccessToken = "+eU+zQe8QJL9BraZ55TJLLTtUNQ1jDojYN63o5t3Skx2cnTqmXrr5lJNXUNBG
 $content = file_get_contents('php://input');
 $arrJson = json_decode($content, true);
 
-$strUrl = "https://api.line.me/v2/bot/message/reply";
+$strUrl = "https://api.line.me/v2/bot/message/push";
 
 $arrHeader = array();
 $arrHeader[] = "Content-Type: application/json";
@@ -97,17 +97,26 @@ if (strpos($_msg, 'Order') !== false) {
       $arrPostData['messages'][2]['type'] = "text";
       $arrPostData['messages'][2]['text'] = 'Please wait about '.$x.' minute';
 
-      $output = shell_exec("curl -v -X POST https://api.line.me/v2/bot/message/push -H 'Content-Type:application/json' -H 'Authorization: Bearer +eU+zQe8QJL9BraZ55TJLLTtUNQ1jDojYN63o5t3Skx2cnTqmXrr5lJNXUNBGVM8mSCtidORd7MgL6neDJf5uI5gKWhR3eUiKuqGNCdh/1ptR4Fdig9RCNHJo9tZUNJjjhH3N+MAtzE3+YVeAjlRIgdB04t89/1O/w1cDnyilFU=' -d '{\"to\": \"Uabeba789147c026870a033491c1c6224\",\"messages\":[{\"type\":\"template\",\"altText\":\"this is a confirm template\",\"template\":{\"type\":\"confirm\",\"text\":\"Are you sure?\",\"actions\":[{\"type\":\"message\",\"label\":\"Yes\",\"text\":\"yes\"},{\"type\":\"message\",\"label\": \"No\",\"text\":\"no\"}]}}]}'")
-
       $_no = $_no+1;
   
 
     }else{
-      $arrPostData = array();
+     /* $arrPostData = array();
       $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
       $arrPostData['messages'][0]['type'] = "text";
-      $arrPostData['messages'][0]['text'] = 'ไม่ควรดื่มเกินวันละ 3 แก้ว!';
-    }
+      $arrPostData['messages'][0]['text'] = 'ไม่ควรดื่มเกินวันละ 3 แก้ว!';*/
+      $arrPostData = array();
+      $arrPostData['to'] = "Uabeba789147c026870a033491c1c6224";
+      $arrPostData['messages'][0]['type'] = "template";
+      $arrPostData['messages'][0]['altText'] = "this is a confirm template";
+      $arrPostData['messages'][0]['template']['type'] = "confirm";
+      $arrPostData['messages'][0]['template']['text'] = "Are you sure?";
+      $arrPostData['messages'][0]['template']['actions'][0]['type'] = "message";
+      $arrPostData['messages'][0]['template']['actions'][0]['label'] = "Yes";
+      $arrPostData['messages'][0]['template']['actions'][0]['text'] = "yes";
+      $arrPostData['messages'][0]['template']['actions'][1]['type'] = "message";
+      $arrPostData['messages'][0]['template']['actions'][1]['label'] = "No";
+      $arrPostData['messages'][0]['template']['actions'][1]['text'] = "no";
 }
 
 
