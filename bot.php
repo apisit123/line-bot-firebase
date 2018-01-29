@@ -139,7 +139,7 @@ if (strpos($_msg, 'Order') !== false) {
       $arrPostData['messages'][3] = {
             "type":"text",
             "text":"Hello, user"
-        }
+        };
 
 
 
