@@ -1,5 +1,45 @@
 ﻿<?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+///////////// ส่วนของการเรียกใช้งาน class ผ่าน namespace
+use LINE\LINEBot;
+use LINE\LINEBot\HTTPClient;
+use LINE\LINEBot\HTTPClient\CurlHTTPClient;
+//use LINE\LINEBot\Event;
+//use LINE\LINEBot\Event\BaseEvent;
+//use LINE\LINEBot\Event\MessageEvent;
+use LINE\LINEBot\MessageBuilder;
+use LINE\LINEBot\MessageBuilder\TextMessageBuilder;
+use LINE\LINEBot\MessageBuilder\StickerMessageBuilder;
+use LINE\LINEBot\MessageBuilder\ImageMessageBuilder;
+use LINE\LINEBot\MessageBuilder\LocationMessageBuilder;
+use LINE\LINEBot\MessageBuilder\AudioMessageBuilder;
+use LINE\LINEBot\MessageBuilder\VideoMessageBuilder;
+use LINE\LINEBot\ImagemapActionBuilder;
+use LINE\LINEBot\ImagemapActionBuilder\AreaBuilder;
+use LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder ;
+use LINE\LINEBot\ImagemapActionBuilder\ImagemapUriActionBuilder;
+use LINE\LINEBot\MessageBuilder\Imagemap\BaseSizeBuilder;
+use LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder;
+use LINE\LINEBot\MessageBuilder\MultiMessageBuilder;
+use LINE\LINEBot\TemplateActionBuilder;
+use LINE\LINEBot\TemplateActionBuilder\DatetimePickerTemplateActionBuilder;
+use LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder;
+use LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder;
+use LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder;
+use LINE\LINEBot\MessageBuilder\TemplateBuilder;
+use LINE\LINEBot\MessageBuilder\TemplateMessageBuilder;
+use LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder;
+use LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselTemplateBuilder;
+use LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder;
+use LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder;
+use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselTemplateBuilder;
+use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselColumnTemplateBuilder;
+
+
 $strAccessToken = "+eU+zQe8QJL9BraZ55TJLLTtUNQ1jDojYN63o5t3Skx2cnTqmXrr5lJNXUNBGVM8mSCtidORd7MgL6neDJf5uI5gKWhR3eUiKuqGNCdh/1ptR4Fdig9RCNHJo9tZUNJjjhH3N+MAtzE3+YVeAjlRIgdB04t89/1O/w1cDnyilFU=";
 
 
@@ -96,27 +136,16 @@ if (strpos($_msg, 'Order') !== false) {
       $arrPostData['messages'][1]['text'] = 'Your order number '.$_no.'';
       $arrPostData['messages'][2]['type'] = "text";
       $arrPostData['messages'][2]['text'] = 'Please wait about '.$x.' minute';
+      //$arrPostData['messages'][2]['text'] = $output;
 
       $_no = $_no+1;
-  
 
     }else{
       $arrPostData = array();
       $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
       $arrPostData['messages'][0]['type'] = "text";
-     $arrPostData['messages'][0]['text'] = 'ไม่ควรดื่มเกินวันละ 3 แก้ว!';
-    /*  $arrPostData = array();
-      $arrPostData['to'] = "Uabeba789147c026870a033491c1c6224";
-      $arrPostData['messages'][0]['type'] = "template";
-      $arrPostData['messages'][0]['altText'] = "this is a confirm template";
-      $arrPostData['messages'][0]['template']['type'] = "confirm";
-      $arrPostData['messages'][0]['template']['text'] = "Are you sure?";
-      $arrPostData['messages'][0]['template']['actions'][0]['type'] = "message";
-      $arrPostData['messages'][0]['template']['actions'][0]['label'] = "Yes";
-      $arrPostData['messages'][0]['template']['actions'][0]['text'] = "yes";
-      $arrPostData['messages'][0]['template']['actions'][1]['type'] = "message";
-      $arrPostData['messages'][0]['template']['actions'][1]['label'] = "No";
-      $arrPostData['messages'][0]['template']['actions'][1]['text'] = "no"; */
+      $arrPostData['messages'][0]['text'] = 'ไม่ควรดื่มเกินวันละ 3 แก้ว!';
+    }
 }
 
 
