@@ -53,7 +53,6 @@ $arrHeader[] = "Content-Type: application/json";
 $arrHeader[] = "Authorization: Bearer {$strAccessToken}";
 $_msg = $arrJson['events'][0]['message']['text'];
 $_uid = $arrJson['events'][0]['source']['userId'];
-$_confirm = $arrJson['events'][0]['postback'];
 $_rId = $arrJson['events'];
 
 $api_key="4csW3sDVAQwWESHj37IW_1XkRSAvhVwA";
@@ -126,46 +125,34 @@ if (strpos($_msg, 'Order') !== false) {
          )
       );
       $x = ($_no-$_totalSuccessOrder)*3;
+      $context = stream_context_create($opts);
+      $returnValue = file_get_contents($url,false,$context);
       $arrPostData = array();
       $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
-      $arrPostData['messages'][0]['type'] = "template";
-      $arrPostData['messages'][0]['altText'] = "this is a confirm template";
-      $arrPostData['messages'][0]['text'] = 
-      "messages":[
-        {
-          "type": "template",
-          "altText": "this is a confirm template",
-          "template": {
-              "type": "confirm",
-              "text": "Are you sure?",
-              "actions": [
-                  {
-                    "type": "message",
-                    "label": "Yes",
-                    "text": "yes"
-                  },
-                  {
-                    "type": "message",
-                    "label": "No",
-                    "text": "no"
-                  }
+      $arrPostData['messages'][0]['type'] = "text";
+      $arrPostData['messages'][0]['text'] = "Order received";
+      $arrPostData['messages'][1]['type'] = "text";
+      $arrPostData['messages'][1]['text'] = 'Your order number '.$_no.'';
+      $arrPostData['messages'][2]['type'] = "text";
+      $arrPostData['messages'][2]['text'] = 'Please wait about '.$x.' minute';
+      $arrPostData['messages'][3]['type'] = "template";
+      $arrPostData['messages'][3]['altText'] = "this is a confirm template";
+      $arrPostData['messages'][3]['template']['type'] = 'confirm';
+      $arrPostData['messages'][3]['template']['text'] = 'Confirm order??';
+      $arrPostData['messages'][3]['template']['actions'] = [
+          {
+            "type": "message",
+            "label": "Yes",
+            "text": "yes"
+          },
+          {
+            "type": "message",
+            "label": "No",
+            "text": "no"
+          }
       ];
-      if(true){
-        $context = stream_context_create($opts);
-        $returnValue = file_get_contents($url,false,$context);
-        $arrPostData = array();
-        $arrPostData['messages'][0]['type'] = "text";
-        $arrPostData['messages'][0]['text'] = "Order received";
-        $arrPostData['messages'][1]['type'] = "text";
-        $arrPostData['messages'][1]['text'] = 'Your order number '.$_no.'';
-        $arrPostData['messages'][2]['type'] = "text";
-        $arrPostData['messages'][2]['text'] = 'Please wait about '.$x.' minute';
-        $_no = $_no+1;
-      }else{
-        $arrPostData = array();
-        $arrPostData['messages'][0]['type'] = "text";
-        $arrPostData['messages'][0]['text'] = "Order Cancel";
-      }    
+
+      $_no = $_no+1;
 
     }else{
       $arrPostData = array();
