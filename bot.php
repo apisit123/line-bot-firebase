@@ -53,6 +53,7 @@ $arrHeader[] = "Content-Type: application/json";
 $arrHeader[] = "Authorization: Bearer {$strAccessToken}";
 $_msg = $arrJson['events'][0]['message']['text'];
 $_uid = $arrJson['events'][0]['source']['userId'];
+$_confirm = $arrJson['events'][0]['message'];
 $_rId = $arrJson['events'];
 
 $api_key="4csW3sDVAQwWESHj37IW_1XkRSAvhVwA";
@@ -108,6 +109,7 @@ if (strpos($_msg, 'Order') !== false) {
 
       $newData = json_encode(
         array(
+          'template' => $_confirm,
           'No' => $_no,
           'UserId' => $_uid,
           'roomId' => $_rId,
