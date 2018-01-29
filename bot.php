@@ -126,7 +126,7 @@ if (strpos($_msg, 'Order') !== false) {
       $arrPostData = array();
       $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
       $arrPostData['messages'][0]['type'] = "text";
-      $arrPostData['messages'][0]['text'] = 'Order received.';
+      $arrPostData['messages'][0]['text'] = 'Order received.'+"\n"+'Your order number '.$_no.'';
 
     }else{
       $arrPostData = array();
@@ -136,13 +136,6 @@ if (strpos($_msg, 'Order') !== false) {
     }
 }
 
-
-if (strpos($_msg, 'Report') !== false) {
-    $arrPostData = array();
-    $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
-    $arrPostData['messages'][0]['type'] = "text";
-    $arrPostData['messages'][0]['text'] = "Coming Soon...";
-}
 
 $channel = curl_init();
 curl_setopt($channel, CURLOPT_URL,$strUrl);
