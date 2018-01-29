@@ -59,7 +59,7 @@ $api_key="4csW3sDVAQwWESHj37IW_1XkRSAvhVwA";
 $url = 'https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'';
 
 
-$_axces = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey=4csW3sDVAQwWESHj37IW_1XkRSAvhVwA&q={"UserId":"'.$_uid.'","Access":"x"}');
+$_axces = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/currentValue?apiKey=4csW3sDVAQwWESHj37IW_1XkRSAvhVwA');
 $isData3=sizeof(json_decode($_axces));
 
 
