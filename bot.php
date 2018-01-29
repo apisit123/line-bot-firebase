@@ -138,7 +138,12 @@ if (strpos($_msg, 'Order') !== false) {
         {
             "type":"text",
             "text":"Hello, user"
-        };
+        },
+        {
+            "type":"text",
+            "text":"May I help you?"
+        }
+    ];
      /* $arrPostData['messages'][2]['type'] = "text";
       $arrPostData['messages'][2]['text'] = 'Please wait about '.$x.' minute';*/
 
