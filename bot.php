@@ -135,26 +135,7 @@ if (strpos($_msg, 'Order') !== false) {
       $arrPostData['messages'][1]['type'] = "text";
       $arrPostData['messages'][1]['text'] = 'Your order number '.$_no.'';
       $arrPostData['messages'][2]['type'] = "text";
-      $arrPostData['messages'][2]['text'] = array({
-  "type": "template",
-  "altText": "this is a confirm template",
-  "template": {
-      "type": "confirm",
-      "text": "Are you sure?",
-      "actions": [
-          {
-            "type": "message",
-            "label": "Yes",
-            "text": "yes"
-          },
-          {
-            "type": "message",
-            "label": "No",
-            "text": "no"
-          }
-      ]
-  }
-});//'Please wait about '.$x.' minute';
+      $arrPostData['messages'][2]['text'] = "{x:1,B:2}";//'Please wait about '.$x.' minute';
       //$arrPostData['messages'][2]['text'] = $output;
 
       $_no = $_no+1;
