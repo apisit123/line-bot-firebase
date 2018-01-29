@@ -59,7 +59,7 @@ $api_key="4csW3sDVAQwWESHj37IW_1XkRSAvhVwA";
 $url = 'https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey='.$api_key.'';
 
 
-$_axces = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/currentValue?apiKey=4csW3sDVAQwWESHj37IW_1XkRSAvhVwA');
+$_axces = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey=4csW3sDVAQwWESHj37IW_1XkRSAvhVwA&q={"UserId":"'.$_uid.'","Access":"x"}');
 $isData3=sizeof(json_decode($_axces));
 
 
@@ -103,7 +103,7 @@ if (strpos($_msg, 'Order') !== false) {
         $acc = 'x';
       }
 
-      $_successOrder = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/linebot?apiKey=4csW3sDVAQwWESHj37IW_1XkRSAvhVwA&q={"Access":"x"}');
+      $_successOrder = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/currentValue?apiKey=4csW3sDVAQwWESHj37IW_1XkRSAvhVwA&q');
       $_totalSuccessOrder=sizeof(json_decode($_successOrder));
 
       $newData = json_encode(
@@ -124,7 +124,7 @@ if (strpos($_msg, 'Order') !== false) {
             'content' => $newData
          )
       );
-      $x = ($_no - $_totalSuccessOrder)*3;
+      $x = ($_no-$_totalSuccessOrder)*3;
       $context = stream_context_create($opts);
       $returnValue = file_get_contents($url,false,$context);
       $arrPostData = array();
@@ -132,7 +132,7 @@ if (strpos($_msg, 'Order') !== false) {
       $arrPostData['messages'][0]['type'] = "text";
       $arrPostData['messages'][0]['text'] = "Order received";
       $arrPostData['messages'][1]['type'] = "text";
-      $arrPostData['messages'][1]['text'] = 'Your order number '.$_no.' successOrder '.$_totalSuccessOrder.'';
+      $arrPostData['messages'][1]['text'] = 'Your order number '.$_no.'';
       $arrPostData['messages'][2]['type'] = "text";
       $arrPostData['messages'][2]['text'] = 'Please wait about '.$x.' minute';
 
