@@ -125,23 +125,7 @@ if (strpos($_msg, 'Order') !== false) {
       );
 
 
-      $ch = curl_init();
-      curl_setopt($ch, CURLOPT_URL, 'https://api.line.me/v2/bot/message/push');
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-      curl_setopt($ch, CURLOPT_POSTFIELDS, "{\"to\": \"$_uid\",\"messages\":[{\"type\":\"template\",\"altText\":\"this is a confirm template\",\"template\":{\"type\":\"confirm\",\"text\":\"Are you sure?\",\"actions\":[{\"type\":\"message\",\"label\":\"Yes\",\"text\":\"yes\"},{\"type\":\"message\",\"label\": \"No\",\"text\":\"no\"}]}}]}");
-      curl_setopt($ch, CURLOPT_POST, 1);
-
-      $headers = array();
-      $headers[] = 'Content-Type:application/json'
-      $headers[] = "Authorization: Bearer {$strAccessToken}";
-      curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-      $result = curl_exec($ch);
-      if (curl_errno($ch)) {
-          echo 'Error:' . curl_error($ch);
-      }
-      curl_close ($ch);
-
+     
 
       $x = ($_no-$_totalSuccessOrder)*3;
 
