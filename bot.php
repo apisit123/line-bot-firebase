@@ -129,14 +129,20 @@ if (strpos($_msg, 'Order') !== false) {
       $returnValue = file_get_contents($url,false,$context);
       $arrPostData = array();
       $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
-      $arrPostData['messages'][0]['type'] = "text";
+    /*  $arrPostData['messages'][0]['type'] = "text";
       $arrPostData['messages'][0]['text'] = "Order received";
       $arrPostData['messages'][1]['type'] = "text";
-      $arrPostData['messages'][1]['text'] = 'Your order number '.$_no.'';
+      $arrPostData['messages'][1]['text'] = 'Your order number '.$_no.'';*/
+
+      $arrPostData = "messages":[
+        {
+            "type":"text",
+            "text":"Hello, user"
+        };
      /* $arrPostData['messages'][2]['type'] = "text";
       $arrPostData['messages'][2]['text'] = 'Please wait about '.$x.' minute';*/
 
-      $arrPostData['messages'][2]["type"] = "template";
+ /*     $arrPostData['messages'][2]["type"] = "template";
       $arrPostData['messages'][2]["altText"] = "this is a confirm template";
       $arrPostData['messages'][2]["template"]["type"] = "confirm";
       $arrPostData['messages'][2]["template"]["text"] = "Are you sure?";
@@ -145,7 +151,7 @@ if (strpos($_msg, 'Order') !== false) {
       $arrPostData['messages'][2]["template"]["actions"]["text"] = "yes";
       $arrPostData['messages'][2]["template"]["actions"]["type"] = "message";
       $arrPostData['messages'][2]["template"]["actions"]["label"] = "No";
-      $arrPostData['messages'][2]["template"]["actions"]["text"] = "no";
+      $arrPostData['messages'][2]["template"]["actions"]["text"] = "no";*/
       $_no = $_no+1;
 
     }else{
