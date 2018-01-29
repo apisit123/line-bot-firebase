@@ -106,6 +106,12 @@ if (strpos($_msg, 'Order') !== false) {
       $_successOrder = file_get_contents('https://api.mlab.com/api/1/databases/tstdb/collections/currentValue?apiKey=4csW3sDVAQwWESHj37IW_1XkRSAvhVwA&q');
       $_totalSuccessOrder=sizeof(json_decode($_successOrder));
 
+      $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
+      $arrPostData['messages'][0]['type'] = "text";
+      $arrPostData['messages'][0]['text'] = "Order received";
+      $arrPostData['messages'][1]['type'] = "text";
+      $arrPostData['messages'][1]['text'] = 'Your order number '.$_no.'';
+
       $newData = json_encode(
         array(
           'No' => $_no,
@@ -114,7 +120,8 @@ if (strpos($_msg, 'Order') !== false) {
           'Coffee' => $_coffee,
           'PicProfile' => $_imgProFILE,
           'Name' => $_dispName,
-          'Access' => $acc
+          'Access' => $acc,
+          'XXXX' => $arrPostData
         )
       );
       $opts = array(
@@ -129,28 +136,8 @@ if (strpos($_msg, 'Order') !== false) {
       $returnValue = file_get_contents($url,false,$context);
       $arrPostData = array();
 
-      $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($strAccessToken);
-      $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => '9fb1e822313472b5fc68f1870e30d6d4']);
+      
 
-      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('hello');
-      $response = $bot->replyMessage($arrJson['events'][0]['replyToken'], $textMessageBuilder);
-
-      echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
-     // $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
-    /*  $arrPostData['messages'][0]['type'] = "text";
-      $arrPostData['messages'][0]['text'] = "Order received";
-      $arrPostData['messages'][1]['type'] = "text";
-      $arrPostData['messages'][1]['text'] = 'Your order number '.$_no.'';*/
-
- /*     $arrPostData = array(
-        "replyToken": $arrJson['events'][0]['replyToken'].,
-        "messages":[
-        {
-            "type":"text",
-            "text":"Hello, user"
-        }]);*/
-     /* $arrPostData['messages'][2]['type'] = "text";
-      $arrPostData['messages'][2]['text'] = 'Please wait about '.$x.' minute';*/
 
  /*     $arrPostData['messages'][2]["type"] = "template";
       $arrPostData['messages'][2]["altText"] = "this is a confirm template";
